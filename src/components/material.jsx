@@ -2,14 +2,15 @@ import { React, useEffect, useState } from "react";
 import { Col, Row, Form, Button, Container } from "react-bootstrap";
 
 export default function Material({ type, id }) {
-  const [formState, setFormState] = useState({
+  const defaultForm = {
     nombre: "",
     descripcion: "",
     color: "",
     cantidad: 0,
     unidad: "1",
     costo: 0,
-  });
+  };
+  const [formState, setFormState] = useState(defaultForm);
 
   const readOnly = type === "view";
   const create = type === "create";
@@ -37,28 +38,25 @@ export default function Material({ type, id }) {
         };
 
         const url = `${process.env.REACT_APP_API_URL}/materials/${id}`;
-        console.log("url: ", url);
+
         const resp = await fetch(url, pream);
         if (resp.ok) {
           const data = await resp.json();
+
+          console.log(data);
           setFormState(data[0]);
         } else {
-          const data = {};
-          console.log(data);
+          setFormState(defaultForm);
         }
-
-        return resp;
       } catch (e) {
         console.log(e);
-        return {};
       }
     };
 
-    if (id) {
-      console.log("id", id);
+    if (id && id >= 0 && type === "view") {
       getData({ id });
     }
-  }, [id]);
+  }, [id, type]);
 
   return (
     <Container>
