@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import MaterialsCreate from "./routes/materials/create";
-
+import MaterialsCreate from "routes/materials/create";
+import MaterialsView from "routes/materials/view";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -15,6 +15,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}></Route>
         <Route path="/materials/create" element={<MaterialsCreate />}></Route>
+        <Route path="/materials/view/:id" element={<MaterialsView />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
