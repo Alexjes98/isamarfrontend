@@ -143,10 +143,10 @@ export default function Material({ state }) {
             disabled={readOnly}
             plaintext={readOnly ? {} : null}
           >
-            <option value="1">Metros</option>
-            <option value="2">Pulgadas</option>
-            <option value="3">Gramos</option>
-            <option value="3">Unidad</option>
+            <option value="metros">Metros</option>
+            <option value="pulgadas">Pulgadas</option>
+            <option value="gramos">Gramos</option>
+            <option value="unidad">Unidad</option>
           </Form.Select>
         </Form.Group>
       </Col>

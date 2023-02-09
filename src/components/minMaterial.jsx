@@ -1,8 +1,10 @@
 import { React, useState } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
-export default function Material({ state }) {
+export default function Material({ clotheId, state }) {
   const [formState, setFormState] = useState(state);
 
+  console.log("my state: ", state);
+  console.log("prendaId: ", clotheId);
   const [type, setType] = useState(state.id === 0 ? "create" : "view");
 
   const readOnly = type === "view";
@@ -66,9 +68,9 @@ export default function Material({ state }) {
     };
 
     if (formState.id === 0) {
-      saveData();
+      //saveData();
     } else {
-      updateData();
+      //updateData();
     }
   };
 
@@ -77,31 +79,16 @@ export default function Material({ state }) {
   };
 
   return (
-    <Row className="mt-3">
-      <Col sm={3}>
+    <Row className="mt-4">
+      <Col sm={1}>
         <Form.Group className="mb-3">
           <Form.Control
             type="text"
-            placeholder="Ingrese el nombre del material"
+            placeholder="Ingrese Nombre"
             name="nombre"
             value={formState.nombre}
-            onChange={handleChange}
-            required
-            readOnly={readOnly}
-            plaintext={readOnly ? {} : null}
-          />
-        </Form.Group>
-      </Col>
-      <Col sm={4}>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="Ingrese la descripción del material"
-            name="descripcion"
-            value={formState.descripcion}
-            onChange={handleChange}
-            readOnly={readOnly}
-            plaintext={readOnly ? {} : null}
+            readOnly
+            plaintext
           />
         </Form.Group>
       </Col>
@@ -109,11 +96,23 @@ export default function Material({ state }) {
         <Form.Group className="mb-3">
           <Form.Control
             type="text"
-            placeholder="Ingrese el Color del material"
+            placeholder="Ingrese Color "
             name="color"
             value={formState.color}
-            onChange={handleChange}
+            readOnly
+            plaintext
+          />
+        </Form.Group>
+      </Col>
+      <Col sm={1}>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Ingrese Cantidad "
+            name="cantidad"
             readOnly={readOnly}
+            onChange={handleChange}
+            value={formState.cantidad}
             plaintext={readOnly ? {} : null}
           />
         </Form.Group>
@@ -121,50 +120,28 @@ export default function Material({ state }) {
       <Col sm={1}>
         <Form.Group className="mb-3">
           <Form.Control
-            type="number"
-            placeholder="Ingrese la cantidad del material"
-            min="0"
-            name="cantidad"
-            value={formState.cantidad}
-            onChange={handleChange}
-            required
-            readOnly={readOnly}
-            plaintext={readOnly ? {} : null}
-          />
-        </Form.Group>
-      </Col>
-      <Col sm={1}>
-        <Form.Group className="mb-3">
-          <Form.Select
-            aria-label="Default select example"
+            type="text"
+            placeholder="Ingrese Unidad"
             name="unidad"
             value={formState.unidad}
-            onChange={handleChange}
-            disabled={readOnly}
-            plaintext={readOnly ? {} : null}
-          >
-            <option value="1">Metros</option>
-            <option value="2">Pulgadas</option>
-            <option value="3">Gramos</option>
-            <option value="3">Unidad</option>
-          </Form.Select>
+            readOnly
+            plaintext
+          />
         </Form.Group>
       </Col>
       <Col sm={1}>
         <Form.Group className="mb-3">
           <Form.Control
-            type="number"
-            placeholder="Ingrese el Costo del material"
+            type="text"
+            placeholder="Ingrese Costo"
             name="costo"
-            min="0"
             value={formState.costo}
-            onChange={handleChange}
-            required
-            readOnly={readOnly}
-            plaintext={readOnly ? {} : null}
+            readOnly
+            plaintext
           />
         </Form.Group>
       </Col>
+
       <Col sm={1}>
         {save ? (
           <Button variant="primary" className="mx-2 p-1" onClick={handleSave}>
