@@ -1,20 +1,12 @@
 import { React, useState } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
-export default function Material({ type, state }) {
-  const defaultForm = {
-    nombre: "",
-    descripcion: "",
-    color: "",
-    cantidad: 0,
-    unidad: "1",
-    costo: 0,
-  };
-  const [formState, setFormState] = useState(defaultForm);
+export default function Material({ state }) {
+  const [formState, setFormState] = useState(state);
+
+  const [type, setType] = useState(state.id === 0 ? "create" : "view");
 
   const readOnly = type === "view";
-  console.log("type: ", type);
   const save = type === "create" || type === "edit";
-  console.log("save: ", save);
 
   const handleChange = (e) => {
     const target = e.target;
@@ -23,10 +15,65 @@ export default function Material({ type, state }) {
     setFormState({ ...formState, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
     console.log("submitted");
     console.log(formState);
+    const saveData = async () => {
+      try {
+        const pream = {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(formState),
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/materials/create`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          console.log("saved");
+          setType("view");
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    const updateData = async () => {
+      try {
+        const pream = {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(formState),
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/materials/${formState.id}`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          console.log("updated");
+          setType("view");
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (formState.id === 0) {
+      saveData();
+    } else {
+      updateData();
+    }
+  };
+
+  const handleEdit = () => {
+    setType("edit");
   };
 
   return (
@@ -120,7 +167,7 @@ export default function Material({ type, state }) {
       </Col>
       <Col sm={1}>
         {save ? (
-          <Button variant="primary" className="mx-2 p-1">
+          <Button variant="primary" className="mx-2 p-1" onClick={handleSave}>
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +189,7 @@ export default function Material({ type, state }) {
             </span>
           </Button>
         ) : (
-          <Button variant="primary" className="mx-2 p-1">
+          <Button variant="primary" className="mx-2 p-1" onClick={handleEdit}>
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
