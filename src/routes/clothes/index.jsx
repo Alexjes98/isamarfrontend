@@ -1,15 +1,54 @@
 import { React, useEffect, useState } from "react";
-import { Col, Row, Container, Button, Card, Form } from "react-bootstrap";
-import Material from "components/minMaterial";
-import NavBar from "components/navbar";
-import Clothes from "components/minClothe";
+import { Col, Row, Container, Button } from "react-bootstrap";
 
-export default function Materials() {
+import NavBar from "components/navbar";
+import Clothe from "components/minClothe";
+
+export default function Clothes() {
+  const defaultForm = {
+    nombre: "",
+    descripcion: "",
+    color: "",
+    cantidad: 0,
+    unidad: "1",
+    costo: 0,
+    id: 0,
+  };
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const pream = {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/clothes/`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          const data = await resp.json();
+          console.log(data);
+          setData(data);
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
   return (
     <>
+      <NavBar />
       <Container fluid className="my-4">
-        <Clothes />
-        <Clothes />
+        {data.map((clothe, i) => (
+          <Clothe state={clothe} key={i} />
+        ))}
+
         <Row className="mt-4">
           <Col className="text-center">
             <Button variant="primary" className="mx-2 p-1">

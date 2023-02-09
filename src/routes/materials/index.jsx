@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
-import { Col, Row, Container, Button, Card, Form } from "react-bootstrap";
-import Material from "components/minMaterial";
+import { Col, Row, Container, Button, Card } from "react-bootstrap";
+import Material from "components/material";
 import NavBar from "components/navbar";
 export default function Materials() {
   const defaultForm = {

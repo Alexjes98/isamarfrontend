@@ -1,6 +1,10 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { Col, Row, Button, Form, Card } from "react-bootstrap";
-export default function Clothes() {
+
+export default function Clothe({ state }) {
+  const [prenda, setPrenda] = useState(state.prenda);
+
+  console.log(state);
   return (
     <Row className="mt-4 d-flex justify-content-center">
       <Col sm={8}>
@@ -13,7 +17,7 @@ export default function Clothes() {
                   type="text"
                   placeholder="Ingrese el nombre"
                   name="nombre"
-                  value=""
+                  value={prenda.nombre}
                 />
               </Form.Group>
             </Col>
