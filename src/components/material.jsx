@@ -59,7 +59,7 @@ export default function Material({ type, id }) {
   }, [id, type]);
 
   return (
-    <Container>
+    <Container className="mt-5">
       <Row>
         <Col>
           <Form onSubmit={handleSubmit}>

@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import MaterialsCreate from "routes/materials/create";
 import MaterialsView from "routes/materials/view";
+import Card from "routes/materials/index";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -16,6 +17,7 @@ root.render(
         <Route path="/" element={<App />}></Route>
         <Route path="/materials/create" element={<MaterialsCreate />}></Route>
         <Route path="/materials/view/:id" element={<MaterialsView />}></Route>
+        <Route path="/card" element={<Card />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
