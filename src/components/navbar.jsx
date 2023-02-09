@@ -3,7 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 export default function NavBar() {
   return (
-    <Container fluid>
+    <>
       <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="#home">Creaciones Isamar</Navbar.Brand>
@@ -17,6 +17,6 @@ export default function NavBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </Container>
+    </>
   );
 }
