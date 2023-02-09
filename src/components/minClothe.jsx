@@ -2,7 +2,7 @@ import { React } from "react";
 import { Col, Row, Button, Form, Card } from "react-bootstrap";
 export default function Clothes() {
   return (
-    <Row className="mt-4">
+    <Row className="mt-4 d-flex justify-content-center">
       <Col sm={8}>
         <Card body>
           <Row className="mt-3">
