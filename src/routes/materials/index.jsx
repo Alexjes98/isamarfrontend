@@ -1,8 +1,49 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import { Col, Row, Container, Button, Card, Form } from "react-bootstrap";
 import Material from "components/minMaterial";
 import NavBar from "components/navbar";
 export default function Materials() {
+  const defaultForm = {
+    nombre: "",
+    descripcion: "",
+    color: "",
+    cantidad: 0,
+    unidad: "1",
+    costo: 0,
+    id: 0,
+  };
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const pream = {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/materials/`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          const data = await resp.json();
+          setData(data);
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
+
+  const addRow = () => {
+    const dat = [...data, defaultForm];
+    setData(dat);
+  };
   return (
     <>
       <NavBar />
@@ -21,12 +62,12 @@ export default function Materials() {
                   <Col sm={1}>Costo</Col>
                   <Col sm={1}></Col>
                 </Row>
-                <Material type={"view"} id={3} />
-                <Material type={"edit"} id={2} />
-                <Material type={"create"} />
+                {data.map((material, i) => (
+                  <Material state={material} key={i} />
+                ))}
               </Card.Body>
               <Card.Footer className="text-muted text-center">
-                <Button variant="primary" className="mx-2 p-1">
+                <Button variant="primary" className="mx-2 p-1" onClick={addRow}>
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
