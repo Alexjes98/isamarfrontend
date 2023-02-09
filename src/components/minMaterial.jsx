@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
-export default function Material({ type, id }) {
+export default function Material({ type, state }) {
   const defaultForm = {
     nombre: "",
     descripcion: "",
@@ -15,6 +15,7 @@ export default function Material({ type, id }) {
   console.log("type: ", type);
   const save = type === "create" || type === "edit";
   console.log("save: ", save);
+
   const handleChange = (e) => {
     const target = e.target;
     const value = target.value;
@@ -123,6 +124,28 @@ export default function Material({ type, id }) {
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-device-floppy"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"></path>
+                <circle cx="12" cy="14" r="2"></circle>
+                <polyline points="14 4 14 8 8 8 8 4"></polyline>
+              </svg>
+            </span>
+          </Button>
+        ) : (
+          <Button variant="primary" className="mx-2 p-1">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
                 className="icon icon-tabler icon-tabler-edit"
                 width="24"
                 height="24"
@@ -137,32 +160,6 @@ export default function Material({ type, id }) {
                 <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
                 <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
                 <line x1="16" y1="5" x2="19" y2="8" />
-              </svg>
-            </span>
-          </Button>
-        ) : (
-          <Button variant="primary" className="mx-2 p-1">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-device-floppy"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <desc>
-                  Download more icon variants from
-                  https://tabler-icons.io/i/device-floppy
-                </desc>
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"></path>
-                <circle cx="12" cy="14" r="2"></circle>
-                <polyline points="14 4 14 8 8 8 8 4"></polyline>
               </svg>
             </span>
           </Button>
