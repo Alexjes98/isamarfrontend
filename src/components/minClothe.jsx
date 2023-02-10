@@ -27,6 +27,65 @@ export default function Clothe({ state }) {
     ];
     setMaterials(mat);
   };
+
+  const handleSave = () => {
+    const saveData = async () => {
+      try {
+        const pream = {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(prenda),
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/clothes/${prenda.id}/create`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          console.log("saved");
+          setType("view");
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    const updateData = async () => {
+      try {
+        const pream = {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(prenda.id),
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/clothes/${prenda.id}`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          console.log("updated");
+          setType("view");
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (type === "create") {
+      saveData();
+    } else {
+      updateData();
+    }
+    window.location.reload();
+  };
+
+  const handleEdit = () => {
+    setType("edit");
+  };
   return (
     <Row className="mt-4 d-flex justify-content-center">
       <Col sm={8}>
@@ -46,7 +105,7 @@ export default function Clothe({ state }) {
                 />
               </Form.Group>
             </Col>
-            <Col sm={5}>
+            <Col sm={4}>
               <Form.Group className="mb-3">
                 <Form.Label>Descripción</Form.Label>
                 <Form.Control
@@ -87,6 +146,68 @@ export default function Clothe({ state }) {
                   readOnly={readOnly}
                   plaintext={readOnly ? {} : null}
                 />
+              </Form.Group>
+            </Col>
+            <Col sm={1}>
+              <Form.Group className="mb-3">
+                <Form.Label></Form.Label>
+                {save ? (
+                  <Button
+                    variant="primary"
+                    className="mx-2 p-1"
+                    onClick={handleSave}
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-device-floppy"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path
+                          stroke="none"
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        ></path>
+                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"></path>
+                        <circle cx="12" cy="14" r="2"></circle>
+                        <polyline points="14 4 14 8 8 8 8 4"></polyline>
+                      </svg>
+                    </span>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    className="mx-2 p-1"
+                    onClick={handleEdit}
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-edit"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="#ffffff"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                        <line x1="16" y1="5" x2="19" y2="8" />
+                      </svg>
+                    </span>
+                  </Button>
+                )}
               </Form.Group>
             </Col>
           </Row>

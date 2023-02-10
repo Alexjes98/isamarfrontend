@@ -21,8 +21,7 @@ export default function Material({ clotheId, state, inuse }) {
 
   const handleSave = (e) => {
     e.preventDefault();
-    console.log("submitted");
-    console.log(formState);
+
     const saveData = async () => {
       try {
         const pream = {
