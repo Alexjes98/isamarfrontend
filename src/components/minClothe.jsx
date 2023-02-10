@@ -18,7 +18,15 @@ export default function Clothe({ state }) {
     setPrenda({ ...prenda, [name]: value });
   };
 
-  console.log(state);
+  const addMaterial = () => {
+    const mat = [
+      ...materials,
+      {
+        materialId: 0,
+      },
+    ];
+    setMaterials(mat);
+  };
   return (
     <Row className="mt-4 d-flex justify-content-center">
       <Col sm={8}>
@@ -88,7 +96,7 @@ export default function Clothe({ state }) {
             </Col>
           </Row>
           <Row className="my-3">
-            <Col sm={1}>
+            <Col sm={2}>
               <b>Nombre</b>
             </Col>
             <Col sm={1}>
@@ -110,7 +118,11 @@ export default function Clothe({ state }) {
             ))}
           <Row>
             <Col className="text-center">
-              <Button variant="primary" className="mx-2 p-1">
+              <Button
+                variant="primary"
+                className="mx-2 p-1"
+                onClick={addMaterial}
+              >
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
