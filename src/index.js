@@ -5,6 +5,8 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Materials from "routes/materials/index";
 import Clothes from "routes/clothes/index";
+import Catalog from "routes/catalog/index";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -15,6 +17,7 @@ root.render(
         <Route path="/" element={<Materials />}></Route>
         <Route path="/materials" element={<Materials />}></Route>
         <Route path="/clothes" element={<Clothes />}></Route>
+        <Route path="/catalog" element={<Catalog />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
