@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Col, Row, Button, Form, Modal } from "react-bootstrap";
-export default function Material({ clotheId, state }) {
+export default function Material({ clotheId, state, inuse }) {
   const [formState, setFormState] = useState(state);
   const [materiales, setMateriales] = useState([]);
   const [type, setType] = useState(state.materialId === 0 ? "create" : "view");
@@ -74,6 +74,7 @@ export default function Material({ clotheId, state }) {
     } else {
       updateData();
     }
+    window.location.reload();
   };
 
   const handleEdit = () => {
@@ -94,8 +95,16 @@ export default function Material({ clotheId, state }) {
 
         const resp = await fetch(url, pream);
         if (resp.ok) {
-          const data = await resp.json();
+          let data = await resp.json();
+          const ids = inuse.map((material) => material.materialId);
+          console.log(ids);
+          data = data.filter((material) => !ids.includes(material.id));
           setMateriales(data);
+
+          const minMat = data[0];
+          minMat.cantidad = 1;
+          minMat.materialId = minMat.id;
+          setFormState(minMat);
         } else {
         }
       } catch (e) {
@@ -118,7 +127,7 @@ export default function Material({ clotheId, state }) {
       return material.id === parseInt(value);
     });
     const minMat = mat[0];
-    minMat.cantidad = 0;
+    minMat.cantidad = 1;
     minMat.materialId = minMat.id;
     setFormState(minMat);
   };
@@ -160,13 +169,15 @@ export default function Material({ clotheId, state }) {
               <Form.Select
                 aria-label="Default select example"
                 name="material"
-                value={formState.unidad}
+                value={formState.materialId}
                 onChange={handleSelect}
                 disabled={readOnly}
                 plaintext={readOnly ? {} : null}
               >
                 {materiales.map((material) => (
-                  <option value={material.id}>{material.nombre}</option>
+                  <option value={material.id} key={material.id}>
+                    {material.nombre}
+                  </option>
                 ))}
               </Form.Select>
             </Form.Group>

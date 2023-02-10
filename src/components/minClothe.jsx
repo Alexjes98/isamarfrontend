@@ -114,7 +114,12 @@ export default function Clothe({ state }) {
           </Row>
           {Array.isArray(materials) &&
             materials.map((material, i) => (
-              <MinMaterial state={material} clotheId={prenda.id} key={i} />
+              <MinMaterial
+                state={material}
+                clotheId={prenda.id}
+                key={i}
+                inuse={materials}
+              />
             ))}
           <Row>
             <Col className="text-center">
