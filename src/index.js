@@ -14,7 +14,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Materials />}></Route>
+        <Route path="/" element={<Catalog />}></Route>
         <Route path="/materials" element={<Materials />}></Route>
         <Route path="/clothes" element={<Clothes />}></Route>
         <Route path="/catalog" element={<Catalog />}></Route>

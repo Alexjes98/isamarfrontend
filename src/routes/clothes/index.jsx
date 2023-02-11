@@ -5,16 +5,6 @@ import NavBar from "components/navbar";
 import Clothe from "components/minClothe";
 
 export default function Clothes() {
-  const defaultForm = {
-    nombre: "",
-    descripcion: "",
-    color: "",
-    cantidad: 0,
-    unidad: "1",
-    costo: 0,
-    id: 0,
-  };
-
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -41,6 +31,21 @@ export default function Clothes() {
     };
     getData();
   }, []);
+
+  const addClothe = () => {
+    const empty = {
+      prenda: {
+        id: 0,
+        nombre: "",
+        descripcion: "",
+        talla: "",
+        costo: 0,
+      },
+      materiales: [],
+    };
+    const mat = [...data, empty];
+    setData(mat);
+  };
   return (
     <>
       <NavBar />
@@ -51,7 +56,7 @@ export default function Clothes() {
 
         <Row className="mt-4">
           <Col className="text-center">
-            <Button variant="primary" className="mx-2 p-1">
+            <Button variant="primary" className="mx-2 p-1" onClick={addClothe}>
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
