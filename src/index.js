@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import Materials from "routes/materials/index";
 import Clothes from "routes/clothes/index";
 import Catalog from "routes/catalog/index";
+import Orders from "routes/orders/index";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -18,6 +19,7 @@ root.render(
         <Route path="/materials" element={<Materials />}></Route>
         <Route path="/clothes" element={<Clothes />}></Route>
         <Route path="/catalog" element={<Catalog />}></Route>
+        <Route path="/orders" element={<Orders />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
