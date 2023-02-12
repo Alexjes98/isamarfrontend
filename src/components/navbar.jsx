@@ -20,6 +20,9 @@ export default function NavBar() {
               <LinkContainer to="/clothes/">
                 <Nav.Link to="/clothes/"> Prendas</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/orders/">
+                <Nav.Link to="/orders/"> Ordenes</Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>
