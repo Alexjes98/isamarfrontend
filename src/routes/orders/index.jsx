@@ -5,18 +5,67 @@ import NavBar from "components/navbar";
 import Order from "components/minOrder";
 
 export default function Orders() {
+  const defaultForm = {
+    orden: {
+      dni: "",
+      nombre: "",
+      apellido: "",
+      telefono: "",
+      precio: 0,
+      creacion: "",
+      status: "",
+      actualizacion: "",
+      costo: 0,
+      id: 0,
+    },
+    prendas: [],
+  };
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const pream = {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/orders/`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          const data = await resp.json();
+          setData(data);
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, []);
+
+  const addRow = () => {
+    const dat = [...data, defaultForm];
+    setData(dat);
+  };
   return (
     <>
       <NavBar />
       <Container fluid>
         <Row>
           <Col>
-            <Order />
+            {data.map((order, i) => (
+              <Order key={i} data={order} />
+            ))}
           </Col>
         </Row>
         <Row className="mt-4">
           <Col className="text-center">
-            <Button variant="primary" className="mx-2 p-1">
+            <Button variant="primary" className="mx-2 p-1" onClick={addRow}>
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

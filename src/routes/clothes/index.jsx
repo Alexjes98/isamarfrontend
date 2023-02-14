@@ -40,6 +40,7 @@ export default function Clothes() {
         descripcion: "",
         talla: "",
         costo: 0,
+        disponible: 1,
       },
       materiales: [],
     };

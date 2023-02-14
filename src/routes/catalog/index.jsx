@@ -20,8 +20,10 @@ export default function Catalogo() {
         const resp = await fetch(url, pream);
         if (resp.ok) {
           const data = await resp.json();
-          console.log(data);
-          setData(data);
+          const filtered = data.filter(
+            (prenda) => prenda.prenda.disponible === 1
+          );
+          setData(filtered);
         } else {
         }
       } catch (e) {

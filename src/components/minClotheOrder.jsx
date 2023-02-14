@@ -1,14 +1,15 @@
 import { React, useEffect, useState } from "react";
 import { Col, Row, Button, Form, Modal } from "react-bootstrap";
-export default function Material({ clotheId, state, inuse }) {
-  const [formState, setFormState] = useState(state);
-  const [materiales, setMateriales] = useState([]);
-  const [type, setType] = useState(state.materialId === 0 ? "create" : "view");
+
+export default function MinClotheOrder({ orderId, data, inuse }) {
+  const [state, setState] = useState(data);
+  const [clothes, setClothes] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [type, setType] = useState(data.id === 0 ? "create" : "view");
   const readOnly = type === "view";
   const save = type === "create" || type === "edit";
 
@@ -16,68 +17,7 @@ export default function Material({ clotheId, state, inuse }) {
     const target = e.target;
     const value = target.value;
     const name = target.name;
-    setFormState({ ...formState, [name]: value });
-  };
-
-  const handleSave = (e) => {
-    e.preventDefault();
-
-    const saveData = async () => {
-      try {
-        const pream = {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify(formState),
-        };
-
-        const url = `${process.env.REACT_APP_API_URL}/clothes/${clotheId}/materials/add`;
-
-        const resp = await fetch(url, pream);
-        if (resp.ok) {
-          console.log("saved");
-          setType("view");
-        } else {
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    const updateData = async () => {
-      try {
-        const pream = {
-          method: "PUT",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify(formState),
-        };
-
-        const url = `${process.env.REACT_APP_API_URL}/clothes/${clotheId}/materials/${formState.materialId}`;
-
-        const resp = await fetch(url, pream);
-        if (resp.ok) {
-          console.log("updated");
-          setType("view");
-        } else {
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    if (type === "create") {
-      saveData();
-    } else {
-      updateData();
-    }
-    window.location.reload();
-  };
-
-  const handleEdit = () => {
-    setType("edit");
+    setState({ ...state, [name]: value });
   };
 
   useEffect(() => {
@@ -90,20 +30,28 @@ export default function Material({ clotheId, state, inuse }) {
           },
         };
 
-        const url = `${process.env.REACT_APP_API_URL}/materials/`;
-
+        const url = `${process.env.REACT_APP_API_URL}/clothes/`;
+        console.log("url: ", url);
         const resp = await fetch(url, pream);
         if (resp.ok) {
           let data = await resp.json();
-          const ids = inuse.map((material) => material.materialId);
+          const ids = inuse.map((prenda) => prenda.id);
           console.log(ids);
-          data = data.filter((material) => !ids.includes(material.id));
-          setMateriales(data);
+          data = data.filter(
+            (prenda) =>
+              !ids.includes(prenda.prenda.id) && prenda.prenda.disponible === 1
+          );
 
-          const minMat = data[0];
-          minMat.cantidad = 1;
-          minMat.materialId = minMat.id;
-          setFormState(minMat);
+          const clothe = data[0];
+          const opt = {
+            id: clothe.prenda.id,
+            nombre: clothe.prenda.nombre,
+            talla: clothe.prenda.talla,
+            cantidad: 1,
+            costo: clothe.prenda.costo,
+          };
+          setState(opt);
+          setClothes(data);
         } else {
         }
       } catch (e) {
@@ -116,36 +64,22 @@ export default function Material({ clotheId, state, inuse }) {
     }
   }, [type]);
 
-  const handleSelect = (e) => {
-    const target = e.target;
-    const value = target.value;
-
-    const mat = materiales.filter((material) => {
-      console.log(material.id);
-      return material.id === parseInt(value);
-    });
-    const minMat = mat[0];
-    minMat.cantidad = 1;
-    minMat.materialId = minMat.id;
-    setFormState(minMat);
-  };
-
-  const handleDelete = () => {
-    console.log("borrar");
-    const deleteData = async () => {
+  const handleSave = () => {
+    const updateData = async () => {
       try {
         const pream = {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
-          body: JSON.stringify(formState),
+          body: JSON.stringify(state),
         };
 
-        const url = `${process.env.REACT_APP_API_URL}/clothes/${clotheId}/materials/${formState.materialId}/delete`;
+        const url = `${process.env.REACT_APP_API_URL}/orders/${orderId}/clothes/${state.id}`;
 
         const resp = await fetch(url, pream);
         if (resp.ok) {
+          console.log("updated");
           setType("view");
         } else {
         }
@@ -153,28 +87,101 @@ export default function Material({ clotheId, state, inuse }) {
         console.log(e);
       }
     };
-    deleteData();
-    handleClose();
-    window.location.reload();
+    const saveData = async () => {
+      try {
+        const pream = {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(state),
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/orders/${orderId}/clothes/add`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          console.log("saved");
+          setType("view");
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (type === "create") {
+      saveData();
+    } else if (type === "edit") {
+      updateData();
+    }
   };
 
+  const handleEdit = () => {
+    setType("edit");
+  };
+
+  const handleDelete = async () => {
+    try {
+      const pream = {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(state),
+      };
+
+      const url = `${process.env.REACT_APP_API_URL}/orders/${orderId}/clothes/${state.id}/delete`;
+
+      const resp = await fetch(url, pream);
+      if (resp.ok) {
+        window.location.reload();
+      } else {
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSelect = (e) => {
+    const target = e.target;
+    const value = target.value;
+    console.log(clothes);
+    const f = clothes.filter((clothe) => {
+      console.log("clthoe: ", clothe.prenda.id);
+      return clothe.prenda.id === parseInt(value);
+    });
+    const clothe = f[0];
+    const opt = {
+      id: clothe.prenda.id,
+      nombre: clothe.prenda.nombre,
+      talla: clothe.prenda.talla,
+      cantidad: 1,
+      costo: clothe.prenda.costo,
+    };
+
+    console.log(opt);
+    setState(opt);
+
+    console.log(value);
+  };
   return (
     <>
-      <Row className="mt-4">
-        <Col sm={2}>
+      <Row className="mt-3">
+        <Col sm={1} className="my-auto">
           {type === "create" ? (
             <Form.Group className="mb-3">
               <Form.Select
                 aria-label="Default select example"
                 name="material"
-                value={formState.materialId}
+                value={state.id}
                 onChange={handleSelect}
                 disabled={readOnly}
                 plaintext={readOnly ? {} : null}
               >
-                {materiales.map((material) => (
-                  <option value={material.id} key={material.id}>
-                    {material.nombre}
+                {clothes.map((prenda, i) => (
+                  <option value={prenda.prenda.id} key={prenda.prenda.id}>
+                    {prenda.prenda.nombre}
                   </option>
                 ))}
               </Form.Select>
@@ -185,7 +192,7 @@ export default function Material({ clotheId, state, inuse }) {
                 type="text"
                 placeholder="Ingrese Nombre"
                 name="nombre"
-                value={formState.nombre}
+                value={state.nombre}
                 readOnly
                 plaintext
               />
@@ -193,56 +200,20 @@ export default function Material({ clotheId, state, inuse }) {
           )}
         </Col>
         <Col sm={1}>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Ingrese Color "
-              name="color"
-              value={formState.color}
-              readOnly
-              plaintext
-            />
-          </Form.Group>
+          <Form.Control
+            type="text"
+            placeholder="dni"
+            name="cantidad"
+            onChange={handleChange}
+            value={state.cantidad}
+            readOnly={readOnly}
+            plaintext={readOnly ? {} : null}
+          />
         </Col>
-        <Col sm={1}>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Ingrese Cantidad "
-              name="cantidad"
-              readOnly={readOnly}
-              onChange={handleChange}
-              value={formState.cantidad}
-              plaintext={readOnly ? {} : null}
-            />
-          </Form.Group>
+        <Col sm={1} className="my-auto">
+          {state.costo}
         </Col>
-        <Col sm={1}>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Ingrese Unidad"
-              name="unidad"
-              value={formState.unidad}
-              readOnly
-              plaintext
-            />
-          </Form.Group>
-        </Col>
-        <Col sm={1}>
-          <Form.Group className="mb-3">
-            <Form.Control
-              type="text"
-              placeholder="Ingrese Costo"
-              name="costo"
-              value={formState.costo}
-              readOnly
-              plaintext
-            />
-          </Form.Group>
-        </Col>
-
-        <Col sm={2}>
+        <Col sm={2} className="text-left">
           {save ? (
             <Button variant="primary" className="mx-2 p-1" onClick={handleSave}>
               <span>
@@ -314,11 +285,10 @@ export default function Material({ clotheId, state, inuse }) {
           </Button>
         </Col>
       </Row>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            ¿Quieres eliminar {formState.nombre} de la prenda?
+            ¿Quieres eliminar {state.nombre} de la orden?
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>Podrás agregarlo nuevamente</Modal.Body>
