@@ -97,7 +97,10 @@ export default function Material({ clotheId, state, inuse }) {
           let data = await resp.json();
           const ids = inuse.map((material) => material.materialId);
           console.log(ids);
-          data = data.filter((material) => !ids.includes(material.id));
+          data = data.filter(
+            (material) =>
+              !ids.includes(material.id) && material.disponible === 1
+          );
           setMateriales(data);
 
           const minMat = data[0];
