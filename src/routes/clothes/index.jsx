@@ -21,7 +21,7 @@ export default function Clothes() {
         const resp = await fetch(url, pream);
         if (resp.ok) {
           const data = await resp.json();
-          console.log(data);
+
           setData(data);
         } else {
         }

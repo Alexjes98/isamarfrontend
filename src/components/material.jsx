@@ -33,7 +33,7 @@ export default function Material({ state }) {
       };
 
       const url = `${process.env.REACT_APP_API_URL}/materials/${formState.id}`;
-      console.log("url: ", url);
+
       const resp = await fetch(url, pream);
       if (resp.ok) {
         window.location.reload();
@@ -45,8 +45,7 @@ export default function Material({ state }) {
   };
   const handleSave = (e) => {
     e.preventDefault();
-    console.log("submitted");
-    console.log(formState);
+
     const saveData = async () => {
       try {
         const pream = {
@@ -61,7 +60,6 @@ export default function Material({ state }) {
 
         const resp = await fetch(url, pream);
         if (resp.ok) {
-          console.log("saved");
           setType("view");
         } else {
         }
@@ -84,7 +82,6 @@ export default function Material({ state }) {
 
         const resp = await fetch(url, pream);
         if (resp.ok) {
-          console.log("updated");
           setType("view");
         } else {
         }
@@ -246,7 +243,7 @@ export default function Material({ state }) {
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-eye-check"
+                  className="icon icon-tabler icon-tabler-eye-check"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
@@ -268,11 +265,11 @@ export default function Material({ state }) {
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-eye-off"
+                  className="icon icon-tabler icon-tabler-eye-off"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
-                  stroke-width="2"
+                  strokeWidth="2"
                   stroke="currentColor"
                   fill="none"
                   strokeLinecap="round"

@@ -3,8 +3,6 @@ import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
 import MinMaterial from "./minMaterial";
 
 export default function Clothe({ state }) {
-  console.log("state: ", state);
-
   const [prenda, setPrenda] = useState(state.prenda);
   const [materials, setMaterials] = useState(state.materiales);
   const [type, setType] = useState(prenda.id === 0 ? "create" : "view");
@@ -15,8 +13,7 @@ export default function Clothe({ state }) {
 
   const readOnly = type === "view";
   const save = type === "create" || type === "edit";
-  console.log("readOnly: ", readOnly);
-  console.log("save: ", save);
+
   const handleChange = (e) => {
     const target = e.target;
     const value = target.value;
@@ -44,7 +41,7 @@ export default function Clothe({ state }) {
           },
           body: JSON.stringify({ prenda: prenda }),
         };
-        console.log("prenda: ", prenda);
+
         const url = `${process.env.REACT_APP_API_URL}/clothes/create`;
 
         const resp = await fetch(url, pream);
@@ -52,7 +49,6 @@ export default function Clothe({ state }) {
         x.id = resp.id;
         setPrenda(x);
         if (resp.ok) {
-          console.log("saved");
           setType("view");
         } else {
         }
@@ -72,10 +68,9 @@ export default function Clothe({ state }) {
         };
 
         const url = `${process.env.REACT_APP_API_URL}/clothes/${prenda.id}`;
-        console.log("url: ", url);
+        
         const resp = await fetch(url, pream);
         if (resp.ok) {
-          console.log("updated");
           setType("view");
         } else {
         }
@@ -111,7 +106,7 @@ export default function Clothe({ state }) {
       };
 
       const url = `${process.env.REACT_APP_API_URL}/clothes/${prenda.id}`;
-      console.log("url: ", url);
+
       const resp = await fetch(url, pream);
       if (resp.ok) {
         window.location.reload();
@@ -253,7 +248,7 @@ export default function Clothe({ state }) {
                       <span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          class="icon icon-tabler icon-tabler-eye-check"
+                          className="icon icon-tabler icon-tabler-eye-check"
                           width="24"
                           height="24"
                           viewBox="0 0 24 24"
@@ -283,11 +278,11 @@ export default function Clothe({ state }) {
                       <span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          class="icon icon-tabler icon-tabler-eye-off"
+                          className="icon icon-tabler icon-tabler-eye-off"
                           width="24"
                           height="24"
                           viewBox="0 0 24 24"
-                          stroke-width="2"
+                          strokeWidth="2"
                           stroke="currentColor"
                           fill="none"
                           strokeLinecap="round"

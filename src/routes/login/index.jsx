@@ -10,7 +10,37 @@ import {
 } from "react-bootstrap";
 import Logo from "assets/logo.png";
 
-export default function Login() {
+export default function Login({ setSession }) {
+  const handleLogin = async () => {
+    const body = {
+      dni: "21003585",
+      password: "cuervo123",
+    };
+    try {
+      const pream = {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(body),
+      };
+
+      const url = `${process.env.REACT_APP_API_URL}/login`;
+      console.log("login in");
+      const resp = await fetch(url, pream);
+
+      if (resp.ok) {
+        console.log("ok!");
+        const x = await resp.json();
+        console.log(x);
+        localStorage.setItem("session", JSON.stringify(x));
+        setSession(x);
+      } else {
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <>
       <Container>
@@ -48,7 +78,9 @@ export default function Login() {
               </Form.Group>
               <Form.Group className="mt-5 mb-3 text-center">
                 <Form.Label></Form.Label>
-                <Button variant="primary">Iniciar sesión</Button>
+                <Button variant="primary" onClick={handleLogin}>
+                  Iniciar sesión
+                </Button>
               </Form.Group>
             </Card>
           </Col>

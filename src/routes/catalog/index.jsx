@@ -38,8 +38,8 @@ export default function Catalogo() {
       <Container className="my-4">
         <h3 className="text-center">Catalogo</h3>
         <Row className="my-5">
-          {data.map((prenda) => (
-            <Catalog data={prenda} key={prenda.id} />
+          {data.map((prenda, i) => (
+            <Catalog data={prenda} key={i} />
           ))}
         </Row>
       </Container>

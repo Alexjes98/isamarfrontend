@@ -2,7 +2,8 @@ import { React, useEffect, useState } from "react";
 import { Col, Row, Container, Button, Card } from "react-bootstrap";
 import Material from "components/material";
 import NavBar from "components/navbar";
-export default function Materials() {
+export default function Materials({ session }) {
+  console.log(session);
   const defaultForm = {
     nombre: "",
     descripcion: "",
@@ -22,6 +23,7 @@ export default function Materials() {
           method: "GET",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
         };
 
