@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Materials from "routes/materials/index";
 import Clothes from "routes/clothes/index";
