@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { React, useState } from "react";
 import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
 import MinClotheOrder from "./minClotheOrder";
+
 export default function Order({ data, session }) {
   const [orden, setOrden] = useState(data.orden);
   const [prendas, setPrendas] = useState(data.prendas);
@@ -702,7 +703,14 @@ export default function Order({ data, session }) {
                   </Col>
                 </Row>
                 {reqMateriales.map((mat) => (
-                  <Row key={mat.id}>
+                  <Row
+                    key={mat.id}
+                    className={
+                      mat.cantidad <= mat.disponible
+                        ? "text-success"
+                        : "text-danger"
+                    }
+                  >
                     <Col sm={2}>{mat.nombre}</Col>
                     <Col sm={1}>{mat.cantidad}</Col>
                     <Col sm={1}>{mat.disponible}</Col>
