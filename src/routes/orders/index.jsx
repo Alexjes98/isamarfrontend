@@ -30,6 +30,7 @@ export default function Orders({ session, setSession }) {
           method: "GET",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
         };
 
@@ -59,7 +60,7 @@ export default function Orders({ session, setSession }) {
         <Row>
           <Col>
             {data.map((order, i) => (
-              <Order key={i} data={order} />
+              <Order key={i} data={order} session={session} />
             ))}
           </Col>
         </Row>

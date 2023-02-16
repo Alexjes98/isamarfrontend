@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { Col, Row, Button, Form, Modal } from "react-bootstrap";
 
-export default function MinClotheOrder({ orderId, data, inuse }) {
+export default function MinClotheOrder({ orderId, data, inuse, session }) {
   const [state, setState] = useState(data);
   const [clothes, setClothes] = useState([]);
   const [show, setShow] = useState(false);
@@ -27,6 +27,7 @@ export default function MinClotheOrder({ orderId, data, inuse }) {
           method: "GET",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
         };
 
@@ -71,6 +72,7 @@ export default function MinClotheOrder({ orderId, data, inuse }) {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(state),
         };
@@ -93,6 +95,7 @@ export default function MinClotheOrder({ orderId, data, inuse }) {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(state),
         };
@@ -127,6 +130,7 @@ export default function MinClotheOrder({ orderId, data, inuse }) {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
+          "x-access-token": session.token,
         },
         body: JSON.stringify(state),
       };

@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
 import MinClotheOrder from "./minClotheOrder";
-export default function Order({ data }) {
+export default function Order({ data, session }) {
   const [orden, setOrden] = useState(data.orden);
   const [prendas, setPrendas] = useState(data.prendas);
   const [show, setShow] = useState(false);
@@ -40,6 +40,7 @@ export default function Order({ data }) {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(orden),
         };
@@ -65,6 +66,7 @@ export default function Order({ data }) {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(orden),
         };
@@ -93,6 +95,7 @@ export default function Order({ data }) {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
+          "x-access-token": session.token,
         },
         body: JSON.stringify({}),
       };
@@ -355,6 +358,7 @@ export default function Order({ data }) {
                 orderId={orden.id}
                 data={prenda}
                 inuse={prendas}
+                session={session}
               />
             ))}
             <Row className="mt-4">
