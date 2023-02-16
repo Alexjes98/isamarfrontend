@@ -17,6 +17,7 @@ export default function Orders({ session, setSession }) {
       actualizacion: "",
       costo: 0,
       id: 0,
+      costoSugerido: 0,
     },
     prendas: [],
   };

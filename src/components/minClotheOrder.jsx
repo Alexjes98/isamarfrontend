@@ -32,12 +32,12 @@ export default function MinClotheOrder({ orderId, data, inuse, session }) {
         };
 
         const url = `${process.env.REACT_APP_API_URL}/clothes/`;
-        console.log("url: ", url);
+
         const resp = await fetch(url, pream);
         if (resp.ok) {
           let data = await resp.json();
           const ids = inuse.map((prenda) => prenda.id);
-          console.log(ids);
+
           data = data.filter(
             (prenda) =>
               !ids.includes(prenda.prenda.id) && prenda.prenda.disponible === 1
@@ -151,7 +151,7 @@ export default function MinClotheOrder({ orderId, data, inuse, session }) {
   const handleSelect = (e) => {
     const target = e.target;
     const value = target.value;
-    console.log(clothes);
+
     const f = clothes.filter((clothe) => {
       return clothe.prenda.id === parseInt(value);
     });
@@ -164,10 +164,7 @@ export default function MinClotheOrder({ orderId, data, inuse, session }) {
       costo: clothe.prenda.costo,
     };
 
-    console.log(opt);
     setState(opt);
-
-    console.log(value);
   };
   return (
     <>

@@ -6,7 +6,9 @@ export default function Order({ data, session }) {
   const [orden, setOrden] = useState(data.orden);
   const [prendas, setPrendas] = useState(data.prendas);
   const [show, setShow] = useState(false);
-
+  const [materiales, setMateriales] = useState([]);
+  const [dbPrendas, setDbPrendas] = useState([]);
+  const [reqMateriales, setReqMaterial] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleChange = (e) => {
@@ -35,12 +37,12 @@ export default function Order({ data, session }) {
     setPrendas([...prendas, defaultClothe]);
   };
 
-  const [cost, setCost] = useState();
+  const [cost, setCost] = useState(0);
   useEffect(() => {
     const estimateCost = () => {
       const v = prendas.map((prenda) => prenda.costo * prenda.cantidad);
       const c = v.reduce((a, b) => a + b);
-      console.log(c);
+
       return c;
     };
     try {
@@ -51,6 +53,133 @@ export default function Order({ data, session }) {
       setCost(null);
     }
   }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const pream = {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
+          },
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/materials/`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          const data = await resp.json();
+          setMateriales(data);
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    const getPrendas = async () => {
+      try {
+        const pream = {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
+          },
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/clothes/`;
+
+        const resp = await fetch(url, pream);
+        if (resp.ok) {
+          const data = await resp.json();
+          setDbPrendas(data);
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getPrendas();
+    getData();
+  }, []);
+
+  useEffect(() => {
+    const getMateriales = (prenda) => {
+      const pr = dbPrendas.filter((data) => {
+        return data.prenda.id === prenda.id;
+      });
+      let materiales = pr.map((data) => data.materiales);
+      let m = [];
+      materiales.forEach((mat) => {
+        mat.forEach((mat2) => {
+          m = [...m, mat2];
+        });
+      });
+
+      m = m.map((mati) => {
+        const x = {
+          id: mati.materialId,
+          nombre: mati.nombre,
+          cantidad: mati.cantidad * prenda.cantidad,
+        };
+        return x;
+      });
+
+      return m;
+    };
+
+    const getOrdenMateriales = (prendas) => {
+      const z = prendas.map((prenda) => getMateriales(prenda));
+      let flat = [];
+      z.forEach((m) => (flat = [...flat, ...m]));
+      return flat;
+    };
+
+    const flatMaterials = (materials) => {
+      const keys = materials.map((m) => m.id);
+
+      let flat = {};
+      keys.forEach((key) => {
+        flat[key] = { cantidad: 0 };
+      });
+
+      materials.forEach((mat) => {
+        flat[mat.id].cantidad += mat.cantidad;
+        flat[mat.id].nombre = mat.nombre;
+        flat[mat.id].id = mat.id;
+      });
+
+      let list = [];
+
+      const secKeys = Object.keys(flat);
+      secKeys.forEach((f) => {
+        list = [...list, flat[f]];
+      });
+
+      return list;
+    };
+
+    const addAvalaible = (list) => {
+      const r = list.map((m) => {
+        const disp = materiales.filter((md) => m.id === md.id);
+
+        return { ...m, disponible: disp[0]?.cantidad };
+      });
+      return r;
+    };
+    const calularReq = () => {
+      const z = getOrdenMateriales(prendas);
+      const final = flatMaterials(z);
+      const r = addAvalaible(final);
+      return r;
+    };
+
+    if (Array.isArray(materiales) && Array.isArray(dbPrendas)) {
+      const mlist = calularReq();
+      setReqMaterial(mlist);
+    }
+  }, [materiales, dbPrendas]);
 
   const handleSave = () => {
     const saveData = async () => {
@@ -552,9 +681,39 @@ export default function Order({ data, session }) {
                 )}
               </>
             )}
+            {(session.rol === "admin" || session.rol === "almacenista") && (
+              <>
+                <Row className="mt-3">
+                  <Col>
+                    <h5>
+                      <b>Materiales</b>
+                    </h5>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm={2}>
+                    <b>Material</b>
+                  </Col>
+                  <Col sm={1}>
+                    <b>Requerido</b>
+                  </Col>
+                  <Col sm={1}>
+                    <b>Disponible</b>
+                  </Col>
+                </Row>
+                {reqMateriales.map((mat) => (
+                  <Row key={mat.id}>
+                    <Col sm={2}>{mat.nombre}</Col>
+                    <Col sm={1}>{mat.cantidad}</Col>
+                    <Col sm={1}>{mat.disponible}</Col>
+                  </Row>
+                ))}
+              </>
+            )}
           </Card>
         </Col>
       </Row>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>¿Quieres eliminar la orden?</Modal.Title>

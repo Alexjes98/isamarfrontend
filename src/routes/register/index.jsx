@@ -27,10 +27,6 @@ export default function Register() {
     setState({ ...state, [name]: value });
   };
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   const handleRegister = async () => {
     try {
       const pream = {
