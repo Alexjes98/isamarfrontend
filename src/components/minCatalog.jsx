@@ -8,8 +8,9 @@ export default function minCatalog({ data }) {
       <Card>
         <Card.Img variant="top" src={Franela} />
         <Card.Body>
-          <Card.Title className="text-center"></Card.Title> {data.prenda.nombre}{" "}
-          <Card.Text className="text-center">{data.prenda.talla}</Card.Text>
+          <Card.Title className="text-center"></Card.Title>
+          <b>{data.prenda.nombre}</b>
+          <Card.Text className="text-center">Talla: {data.prenda.talla}</Card.Text>
         </Card.Body>
       </Card>
     </Col>
