@@ -8,6 +8,7 @@ import Clothes from "routes/clothes/index";
 import Catalog from "routes/catalog/index";
 import Orders from "routes/orders/index";
 import Login from "routes/login/index";
+import Register from "routes/register/index";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -42,6 +43,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login setSession={setSession} />}></Route>
             <Route path="*" element={<Navigate to="/login" />} ></Route>
+            <Route path="/register" element={<Register to="/login" />}></Route>
           </Routes>)
         }
 
