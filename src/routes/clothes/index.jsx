@@ -4,7 +4,7 @@ import { Col, Row, Container, Button } from "react-bootstrap";
 import NavBar from "components/navbar";
 import Clothe from "components/minClothe";
 
-export default function Clothes() {
+export default function Clothes({ session, setSession }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -49,7 +49,7 @@ export default function Clothes() {
   };
   return (
     <>
-      <NavBar />
+      <NavBar session={session} setSession={setSession} />
       <Container fluid className="my-4">
         {data.map((clothe, i) => (
           <Clothe state={clothe} key={i} />

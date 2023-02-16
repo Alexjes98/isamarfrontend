@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Col, Row, Container, Button, Card } from "react-bootstrap";
 import Material from "components/material";
 import NavBar from "components/navbar";
-export default function Materials({ session }) {
+export default function Materials({ session, setSession }) {
   console.log(session);
   const defaultForm = {
     nombre: "",
@@ -48,7 +48,7 @@ export default function Materials({ session }) {
   };
   return (
     <>
-      <NavBar />
+      <NavBar session={session} setSession={setSession} />
       <Container fluid className="my-4">
         <Row className="my-5">
           <Col sm={10}>

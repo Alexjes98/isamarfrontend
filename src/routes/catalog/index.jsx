@@ -3,7 +3,7 @@ import { Col, Row, Container } from "react-bootstrap";
 import Catalog from "components/minCatalog";
 import NavBar from "components/navbar";
 
-export default function Catalogo() {
+export default function Catalogo({ session, setSession }) {
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -34,7 +34,7 @@ export default function Catalogo() {
   }, []);
   return (
     <>
-      <NavBar />
+      <NavBar session={session} setSession={setSession} />
       <Container className="my-4">
         <h3 className="text-center">Catalogo</h3>
         <Row className="my-5">

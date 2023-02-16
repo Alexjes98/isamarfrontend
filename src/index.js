@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Switch } from "react-router-dom";
+
 import reportWebVitals from "./reportWebVitals";
 import Materials from "routes/materials/index";
 import Clothes from "routes/clothes/index";
@@ -31,24 +32,21 @@ function App() {
       <BrowserRouter>
         {session ? (
           <Routes>
-
-            <Route path="/materials" element={<Materials session={session} />}></Route>
-            <Route path="/clothes" element={<Clothes />}></Route>
-            <Route path="/catalog" element={<Catalog />}></Route>
-            <Route path="/orders" element={<Orders />}></Route>
+            <Route path="/orders" element={<Orders session={session} setSession={setSession} />}></Route>
+            <Route path="/materials" element={<Materials session={session} setSession={setSession} />}></Route>
+            <Route path="/clothes" element={<Clothes session={session} setSession={setSession} />}></Route>
+            <Route path="/catalog" element={<Catalog session={session} setSession={setSession} />}></Route>
+            <Route path="*" element={<Navigate to="/orders" />} ></Route>
           </Routes>
         ) : (
           <Routes>
             <Route path="/login" element={<Login setSession={setSession} />}></Route>
-            <Route path="/materials" element={<Materials />}></Route>
-            <Route path="/clothes" element={<Clothes />}></Route>
-            <Route path="/catalog" element={<Catalog />}></Route>
-            <Route path="/orders" element={<Orders />}></Route>
+            <Route path="*" element={<Navigate to="/login" />} ></Route>
           </Routes>)
         }
 
       </BrowserRouter>
-    </React.StrictMode>
+    </React.StrictMode >
   );
 }
 console.log("hello");

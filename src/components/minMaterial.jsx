@@ -158,7 +158,6 @@ export default function Material({ clotheId, state, inuse }) {
     };
     deleteData();
     handleClose();
-    window.location.reload();
   };
 
   return (

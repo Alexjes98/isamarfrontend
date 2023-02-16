@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import {
   Col,
   Row,
@@ -11,18 +11,18 @@ import {
 import Logo from "assets/logo.png";
 
 export default function Login({ setSession }) {
+  const [state, setState] = useState({
+    dni: "",
+    password: "",
+  });
   const handleLogin = async () => {
-    const body = {
-      dni: "21003585",
-      password: "cuervo123",
-    };
     try {
       const pream = {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(state),
       };
 
       const url = `${process.env.REACT_APP_API_URL}/login`;
@@ -41,6 +41,12 @@ export default function Login({ setSession }) {
       console.log(e);
     }
   };
+  const handleChange = (e) => {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    setState({ ...state, [name]: value });
+  };
   return (
     <>
       <Container>
@@ -56,12 +62,10 @@ export default function Login({ setSession }) {
                 <Form.Label>Usuario</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Ingrese usuario"
-                  name="usuario"
-                  /*  onChange={handleChange}
-                  value={prenda.nombre}
-                  readOnly={readOnly}
-                  plaintext={readOnly ? {} : null}*/
+                  placeholder="Ingrese DNI"
+                  name="dni"
+                  onChange={handleChange}
+                  value={state.dni}
                 />
               </Form.Group>
               <Form.Group className="mt-4">
@@ -69,11 +73,9 @@ export default function Login({ setSession }) {
                 <Form.Control
                   type="text"
                   placeholder="Ingrese contraseña"
-                  name="contraseña"
-                  /* onChange={handleChange}
-                  value={prenda.nombre}
-                  readOnly={readOnly}
-                  plaintext={readOnly ? {} : null}*/
+                  name="password"
+                  onChange={handleChange}
+                  value={state.password}
                 />
               </Form.Group>
               <Form.Group className="mt-5 mb-3 text-center">

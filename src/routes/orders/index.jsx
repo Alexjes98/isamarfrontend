@@ -4,7 +4,7 @@ import { Col, Row, Container, Button } from "react-bootstrap";
 import NavBar from "components/navbar";
 import Order from "components/minOrder";
 
-export default function Orders() {
+export default function Orders({ session, setSession }) {
   const defaultForm = {
     orden: {
       dni: "",
@@ -54,7 +54,7 @@ export default function Orders() {
   };
   return (
     <>
-      <NavBar />
+      <NavBar session={session} setSession={setSession} />
       <Container fluid>
         <Row>
           <Col>
