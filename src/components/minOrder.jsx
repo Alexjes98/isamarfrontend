@@ -304,33 +304,35 @@ export default function Order({ data, session }) {
                       </span>
                     </Button>
                   )}
-                  <Button
-                    variant="danger"
-                    className="mx-2 p-1"
-                    onClick={handleShow}
-                  >
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-trash"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="#ffffff"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <line x1="4" y1="7" x2="20" y2="7" />
-                        <line x1="10" y1="11" x2="10" y2="17" />
-                        <line x1="14" y1="11" x2="14" y2="17" />
-                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                      </svg>
-                    </span>
-                  </Button>
+                  {(session.rol === "admin" || session.rol === "vendedor") && (
+                    <Button
+                      variant="danger"
+                      className="mx-2 p-1"
+                      onClick={handleShow}
+                    >
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-trash"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="#ffffff"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <line x1="4" y1="7" x2="20" y2="7" />
+                          <line x1="10" y1="11" x2="10" y2="17" />
+                          <line x1="14" y1="11" x2="14" y2="17" />
+                          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                        </svg>
+                      </span>
+                    </Button>
+                  )}
                 </Form.Group>
               </Col>
             </Row>
@@ -361,31 +363,37 @@ export default function Order({ data, session }) {
                 session={session}
               />
             ))}
-            <Row className="mt-4">
-              <Col className="text-center">
-                <Button variant="primary" className="mx-2 p-1" onClick={addRow}>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon icon-tabler icon-tabler-square-plus"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="#ffffff"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <rect x="4" y="4" width="16" height="16" rx="2" />
-                      <line x1="9" y1="12" x2="15" y2="12" />
-                      <line x1="12" y1="9" x2="12" y2="15" />
-                    </svg>
-                  </span>
-                </Button>
-              </Col>
-            </Row>
+            {(session.rol === "admin" || session.rol === "vendedor") && (
+              <Row className="mt-4">
+                <Col className="text-center">
+                  <Button
+                    variant="primary"
+                    className="mx-2 p-1"
+                    onClick={addRow}
+                  >
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-square-plus"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="#ffffff"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <rect x="4" y="4" width="16" height="16" rx="2" />
+                        <line x1="9" y1="12" x2="15" y2="12" />
+                        <line x1="12" y1="9" x2="12" y2="15" />
+                      </svg>
+                    </span>
+                  </Button>
+                </Col>
+              </Row>
+            )}
           </Card>
         </Col>
       </Row>
