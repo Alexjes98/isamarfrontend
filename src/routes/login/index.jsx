@@ -71,7 +71,7 @@ export default function Login({ setSession }) {
               <Form.Group className="mt-4">
                 <Form.Label>Contraseña</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="password"
                   placeholder="Ingrese contraseña"
                   name="password"
                   onChange={handleChange}
