@@ -13,6 +13,7 @@ export default function Clothes({ session, setSession }) {
           method: "GET",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
         };
 
@@ -52,7 +53,7 @@ export default function Clothes({ session, setSession }) {
       <NavBar session={session} setSession={setSession} />
       <Container fluid className="my-4">
         {data.map((clothe, i) => (
-          <Clothe state={clothe} key={i} />
+          <Clothe state={clothe} key={i} session={session} />
         ))}
 
         <Row className="mt-4">

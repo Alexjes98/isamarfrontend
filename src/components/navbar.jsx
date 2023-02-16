@@ -20,11 +20,11 @@ export default function NavBar({ session, setSession }) {
               <LinkContainer to="/catalog/">
                 <Nav.Link to="/catalog/"> Catalogo</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/materials/">
-                <Nav.Link to="/materials/"> Materiales</Nav.Link>
-              </LinkContainer>
               <LinkContainer to="/clothes/">
                 <Nav.Link to="/clothes/"> Prendas</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/materials/">
+                <Nav.Link to="/materials/"> Materiales</Nav.Link>
               </LinkContainer>
             </Nav>
             <Navbar.Text>

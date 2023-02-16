@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Col, Row, Button, Form, Modal } from "react-bootstrap";
-export default function Material({ clotheId, state, inuse }) {
+export default function Material({ clotheId, state, inuse, session }) {
   const [formState, setFormState] = useState(state);
   const [materiales, setMateriales] = useState([]);
   const [type, setType] = useState(state.materialId === 0 ? "create" : "view");
@@ -28,6 +28,7 @@ export default function Material({ clotheId, state, inuse }) {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(formState),
         };
@@ -51,6 +52,7 @@ export default function Material({ clotheId, state, inuse }) {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(formState),
         };
@@ -87,6 +89,7 @@ export default function Material({ clotheId, state, inuse }) {
           method: "GET",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
         };
 
@@ -141,6 +144,7 @@ export default function Material({ clotheId, state, inuse }) {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(formState),
         };

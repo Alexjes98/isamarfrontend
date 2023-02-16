@@ -152,7 +152,6 @@ export default function MinClotheOrder({ orderId, data, inuse, session }) {
     const value = target.value;
     console.log(clothes);
     const f = clothes.filter((clothe) => {
-      console.log("clthoe: ", clothe.prenda.id);
       return clothe.prenda.id === parseInt(value);
     });
     const clothe = f[0];

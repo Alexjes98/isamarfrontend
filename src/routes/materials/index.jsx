@@ -65,7 +65,7 @@ export default function Materials({ session, setSession }) {
                   <Col sm={1}></Col>
                 </Row>
                 {data.map((material, i) => (
-                  <Material state={material} key={i} />
+                  <Material state={material} key={i} session={session} />
                 ))}
               </Card.Body>
               <Card.Footer className="text-muted text-center">

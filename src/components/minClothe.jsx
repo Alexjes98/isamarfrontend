@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
 import MinMaterial from "./minMaterial";
 
-export default function Clothe({ state }) {
+export default function Clothe({ state, session }) {
   const [prenda, setPrenda] = useState(state.prenda);
   const [materials, setMaterials] = useState(state.materiales);
   const [type, setType] = useState(prenda.id === 0 ? "create" : "view");
@@ -38,6 +38,7 @@ export default function Clothe({ state }) {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify({ prenda: prenda }),
         };
@@ -63,12 +64,13 @@ export default function Clothe({ state }) {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(prenda),
         };
 
         const url = `${process.env.REACT_APP_API_URL}/clothes/${prenda.id}`;
-        
+
         const resp = await fetch(url, pream);
         if (resp.ok) {
           setType("view");
@@ -101,6 +103,7 @@ export default function Clothe({ state }) {
         method: "PUT",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
+          "x-access-token": session.token,
         },
         body: JSON.stringify(prenda),
       };
@@ -332,6 +335,7 @@ export default function Clothe({ state }) {
                   clotheId={prenda.id}
                   key={i}
                   inuse={materials}
+                  session={session}
                 />
               ))}
             {type === "view" && (

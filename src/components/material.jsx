@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { Col, Row, Button, Form, Modal } from "react-bootstrap";
-export default function Material({ state }) {
+
+export default function Material({ state, session }) {
   const [formState, setFormState] = useState(state);
 
   const [type, setType] = useState(state.id === 0 ? "create" : "view");
@@ -28,6 +29,7 @@ export default function Material({ state }) {
         method: "PUT",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
+          "x-access-token": session.token,
         },
         body: JSON.stringify(formState),
       };
@@ -52,6 +54,7 @@ export default function Material({ state }) {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(formState),
         };
@@ -74,6 +77,7 @@ export default function Material({ state }) {
           method: "PUT",
           headers: {
             "Content-type": "application/json; charset=UTF-8",
+            "x-access-token": session.token,
           },
           body: JSON.stringify(formState),
         };
