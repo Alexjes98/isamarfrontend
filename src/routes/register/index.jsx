@@ -1,4 +1,5 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import {
   Col,
   Row,
@@ -11,8 +12,51 @@ import {
 import Logo from "assets/logo.png";
 
 export default function Register() {
+  const [state, setState] = useState({
+    nombre: "",
+    apellido: "",
+    dni: "",
+    password: "",
+    telefono: "",
+    rol: "vendedor",
+  });
+  const handleChange = (e) => {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    setState({ ...state, [name]: value });
+  };
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
+  const handleRegister = async () => {
+    try {
+      const pream = {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(state),
+      };
+
+      const url = `${process.env.REACT_APP_API_URL}/register/`;
+
+      const resp = await fetch(url, pream);
+      if (resp.ok) {
+        setState({ ...state, redirect: true });
+      } else {
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
+      {state.redirect && <Navigate to="/login" />}
+
       <Container>
         <Row className="mt-4 d-flex justify-content-center">
           <Col sm={6}>
@@ -29,9 +73,9 @@ export default function Register() {
                     <Form.Control
                       type="text"
                       placeholder="Ingrese Nombre"
-                      name="firstname"
-                      // onChange={handleChange}
-                      // value={state.dni}
+                      name="nombre"
+                      onChange={handleChange}
+                      value={state.nombre}
                     />
                   </Form.Group>
                 </Col>
@@ -41,9 +85,9 @@ export default function Register() {
                     <Form.Control
                       type="text"
                       placeholder="Ingrese Apellido"
-                      name="lastname"
-                      // onChange={handleChange}
-                      // value={state.dni}
+                      name="apellido"
+                      onChange={handleChange}
+                      value={state.apellido}
                     />
                   </Form.Group>
                 </Col>
@@ -56,8 +100,8 @@ export default function Register() {
                       type="text"
                       placeholder="Ingrese DNI"
                       name="dni"
-                      // onChange={handleChange}
-                      // value={state.dni}
+                      onChange={handleChange}
+                      value={state.dni}
                     />
                   </Form.Group>
                 </Col>
@@ -68,8 +112,8 @@ export default function Register() {
                       type="password"
                       placeholder="Ingrese contraseña"
                       name="password"
-                      // onChange={handleChange}
-                      // value={state.password}
+                      onChange={handleChange}
+                      value={state.password}
                     />
                   </Form.Group>
                 </Col>
@@ -81,16 +125,20 @@ export default function Register() {
                     <Form.Control
                       type="text"
                       placeholder="Ingrese Teléfono"
-                      name="phone"
-                      // onChange={handleChange}
-                      // value={state.dni}
+                      name="telefono"
+                      onChange={handleChange}
+                      value={state.telefono}
                     />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Label>Rol</Form.Label>
-                  <Form.Select aria-label="rol">
-                    <option>Selecione un Rol</option>
+                  <Form.Select
+                    aria-label="rol"
+                    name="rol"
+                    value={state.rol}
+                    onChange={handleChange}
+                  >
                     <option value="admin">Admin</option>
                     <option value="vendedor">Vendedor</option>
                     <option value="confeccionista">Confeccionista</option>
@@ -100,7 +148,9 @@ export default function Register() {
               </Row>
               <Form.Group className="mt-5 mb-3 text-center">
                 <Form.Label></Form.Label>
-                <Button variant="primary">Registrarse</Button>
+                <Button variant="primary" onClick={handleRegister}>
+                  Registrarse
+                </Button>
               </Form.Group>
             </Card>
           </Col>

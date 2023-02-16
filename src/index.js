@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate, Switch } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import reportWebVitals from "./reportWebVitals";
 import Materials from "routes/materials/index";
@@ -43,8 +43,9 @@ function App() {
         ) : (
           <Routes>
             <Route path="/login" element={<Login setSession={setSession} />}></Route>
-            <Route path="*" element={<Navigate to="/login" />} ></Route>
             <Route path="/register" element={<Register to="/login" />}></Route>
+            <Route path="*" element={<Navigate to="/login" />} ></Route>
+
           </Routes>)
         }
 
