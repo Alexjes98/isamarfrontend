@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { React, useState } from "react";
 import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
 import MinClotheOrder from "./minClotheOrder";
@@ -12,6 +13,7 @@ export default function Order({ data, session }) {
     const target = e.target;
     const value = target.value;
     const name = target.name;
+
     setOrden({ ...orden, [name]: value });
   };
   const [type, setType] = useState(orden.id === 0 ? "create" : "view");
@@ -32,6 +34,23 @@ export default function Order({ data, session }) {
   const addRow = () => {
     setPrendas([...prendas, defaultClothe]);
   };
+
+  const [cost, setCost] = useState();
+  useEffect(() => {
+    const estimateCost = () => {
+      const v = prendas.map((prenda) => prenda.costo * prenda.cantidad);
+      const c = v.reduce((a, b) => a + b);
+      console.log(c);
+      return c;
+    };
+    try {
+      const costoSugerido = estimateCost();
+      setCost(costoSugerido);
+      setOrden({ ...orden, costo: costoSugerido });
+    } catch (e) {
+      setCost(null);
+    }
+  }, []);
 
   const handleSave = () => {
     const saveData = async () => {
@@ -118,7 +137,7 @@ export default function Order({ data, session }) {
     } else if (orden.status === "creada") {
       return ["creada", "revision"];
     } else {
-      return [orden.status];
+      return ["creada"];
     }
   };
 
@@ -147,12 +166,18 @@ export default function Order({ data, session }) {
     confeccionista: confeccionista(),
   };
 
-  console.log(status);
   return (
     <>
       <Row className="mt-4 d-flex justify-content-center">
         <Col sm={12}>
           <Card body>
+            <Row className="mt-3">
+              <Col>
+                <h5>
+                  <b>Orden</b>
+                </h5>
+              </Col>
+            </Row>
             <Row className="mt-3">
               <Col sm={1}>
                 <Form.Group className="mb-3">
@@ -163,12 +188,22 @@ export default function Order({ data, session }) {
                     name="dni"
                     onChange={handleChange}
                     value={orden.dni}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                    }
+                    plaintext={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                        ? {}
+                        : null
+                    }
                   />
                 </Form.Group>
               </Col>
-              <Col sm={2}>
+              <Col sm={1}>
                 <Form.Group className="mb-3">
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control
@@ -177,12 +212,22 @@ export default function Order({ data, session }) {
                     name="nombre"
                     onChange={handleChange}
                     value={orden.nombre}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                    }
+                    plaintext={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                        ? {}
+                        : null
+                    }
                   />
                 </Form.Group>
               </Col>
-              <Col sm={2}>
+              <Col sm={1}>
                 <Form.Group className="mb-3">
                   <Form.Label>Apellido</Form.Label>
                   <Form.Control
@@ -191,12 +236,22 @@ export default function Order({ data, session }) {
                     name="apellido"
                     onChange={handleChange}
                     value={orden.apellido}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                    }
+                    plaintext={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                        ? {}
+                        : null
+                    }
                   />
                 </Form.Group>
               </Col>
-              <Col sm={1}>
+              <Col sm={2}>
                 <Form.Group className="mb-3">
                   <Form.Label>Telefono</Form.Label>
                   <Form.Control
@@ -205,8 +260,18 @@ export default function Order({ data, session }) {
                     name="telefono"
                     onChange={handleChange}
                     value={orden.telefono}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                    }
+                    plaintext={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista"
+                        ? {}
+                        : null
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -219,8 +284,20 @@ export default function Order({ data, session }) {
                     name="precio"
                     onChange={handleChange}
                     value={orden.precio}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista" ||
+                      orden.status !== "creada"
+                    }
+                    plaintext={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista" ||
+                      orden.status !== "creada"
+                        ? {}
+                        : null
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -231,10 +308,9 @@ export default function Order({ data, session }) {
                     type="text"
                     placeholder="fecha creacion"
                     name="fechaCreacion"
-                    onChange={handleChange}
                     value={orden.creacion}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly
+                    plaintext
                   />
                 </Form.Group>
               </Col>
@@ -277,10 +353,9 @@ export default function Order({ data, session }) {
                     type="text"
                     placeholder="fecha actualizacion"
                     name="fechaActualizacion"
-                    onChange={handleChange}
                     value={orden.actualizacion}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly
+                    plaintext
                   />
                 </Form.Group>
               </Col>
@@ -293,8 +368,33 @@ export default function Order({ data, session }) {
                     name="costo"
                     onChange={handleChange}
                     value={orden.costo}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
+                    readOnly={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista" ||
+                      orden.status !== "creada"
+                    }
+                    plaintext={
+                      readOnly ||
+                      session.rol === "almacenista" ||
+                      session.rol === "confeccionista" ||
+                      orden.status !== "creada"
+                        ? {}
+                        : null
+                    }
+                  />
+                </Form.Group>
+              </Col>
+              <Col sm={1}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Costo Sugerido</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="costo"
+                    name="costo"
+                    value={cost}
+                    readOnly
+                    plaintext
                   />
                 </Form.Group>
               </Col>
@@ -390,68 +490,71 @@ export default function Order({ data, session }) {
                 </Form.Group>
               </Col>
             </Row>
-            <Row className="mt-3">
-              <Col>
-                <h5>
-                  <b>Prenda</b>
-                </h5>
-              </Col>
-            </Row>
-            <Row className="mt-3">
-              <Col sm={1}>
-                <b>Nombre</b>
-              </Col>
-              <Col sm={1}>
-                <b>Cantidad</b>
-              </Col>
-              <Col sm={1}>
-                <b>Costo</b>
-              </Col>
-            </Row>
-            {prendas.map((prenda, i) => (
-              <MinClotheOrder
-                key={i}
-                orderId={orden.id}
-                data={prenda}
-                inuse={prendas}
-                session={session}
-              />
-            ))}
-            {(session.rol === "admin" || session.rol === "vendedor") && (
-              <Row className="mt-4">
-                <Col className="text-center">
-                  <Button
-                    variant="primary"
-                    className="mx-2 p-1"
-                    onClick={addRow}
-                  >
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-square-plus"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="#ffffff"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+            {orden.id > 0 && (
+              <>
+                <Row className="mt-3">
+                  <Col>
+                    <h5>
+                      <b>Prendas</b>
+                    </h5>
+                  </Col>
+                </Row>
+                <Row className="mt-3">
+                  <Col sm={1}>
+                    <b>Nombre</b>
+                  </Col>
+                  <Col sm={1}>
+                    <b>Cantidad</b>
+                  </Col>
+                  <Col sm={1}>
+                    <b>Costo</b>
+                  </Col>
+                </Row>
+                {prendas.map((prenda, i) => (
+                  <MinClotheOrder
+                    key={i}
+                    orderId={orden.id}
+                    data={prenda}
+                    inuse={prendas}
+                    session={session}
+                  />
+                ))}
+                {(session.rol === "admin" || session.rol === "vendedor") && (
+                  <Row className="mt-4">
+                    <Col className="text-center">
+                      <Button
+                        variant="primary"
+                        className="mx-2 p-1"
+                        onClick={addRow}
                       >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <rect x="4" y="4" width="16" height="16" rx="2" />
-                        <line x1="9" y1="12" x2="15" y2="12" />
-                        <line x1="12" y1="9" x2="12" y2="15" />
-                      </svg>
-                    </span>
-                  </Button>
-                </Col>
-              </Row>
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-square-plus"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="#ffffff"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                            <line x1="9" y1="12" x2="15" y2="12" />
+                            <line x1="12" y1="9" x2="12" y2="15" />
+                          </svg>
+                        </span>
+                      </Button>
+                    </Col>
+                  </Row>
+                )}
+              </>
             )}
           </Card>
         </Col>
       </Row>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>¿Quieres eliminar la orden?</Modal.Title>

@@ -13,7 +13,7 @@ export default function Orders({ session, setSession }) {
       telefono: "",
       precio: 0,
       creacion: "",
-      status: "",
+      status: "creada",
       actualizacion: "",
       costo: 0,
       id: 0,

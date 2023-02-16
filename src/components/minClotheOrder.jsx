@@ -118,6 +118,7 @@ export default function MinClotheOrder({ orderId, data, inuse, session }) {
     } else if (type === "edit") {
       updateData();
     }
+    window.location.reload();
   };
 
   const handleEdit = () => {
