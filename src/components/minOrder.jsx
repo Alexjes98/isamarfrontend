@@ -112,6 +112,42 @@ export default function Order({ data, session }) {
     }
   };
 
+  const vendedor = () => {
+    if (orden.status === "lista") {
+      return ["lista", "completada"];
+    } else if (orden.status === "creada") {
+      return ["creada", "revision"];
+    } else {
+      return [orden.status];
+    }
+  };
+
+  const almacenista = () => {
+    if (orden.status === "revision") {
+      return ["revision", "aprobada"];
+    } else {
+      return [orden.status];
+    }
+  };
+
+  const confeccionista = () => {
+    if (orden.status === "aprobada") {
+      return ["aprobada", "encurso"];
+    } else if (orden.status === "encurso") {
+      return ["encurso", "lista"];
+    } else {
+      return [orden.status];
+    }
+  };
+
+  const status = {
+    admin: ["creada", "revision", "aprobada", "encurso", "lista", "completada"],
+    vendedor: vendedor(),
+    almacenista: almacenista(),
+    confeccionista: confeccionista(),
+  };
+
+  console.log(status);
   return (
     <>
       <Row className="mt-4 d-flex justify-content-center">
@@ -205,15 +241,33 @@ export default function Order({ data, session }) {
               <Col sm={1}>
                 <Form.Group className="mb-3">
                   <Form.Label>Status</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="status"
-                    name="status"
-                    onChange={handleChange}
-                    value={orden.status}
-                    readOnly={readOnly}
-                    plaintext={readOnly ? {} : null}
-                  />
+
+                  {readOnly ? (
+                    <Form.Control
+                      type="text"
+                      placeholder="status"
+                      name="status"
+                      onChange={handleChange}
+                      value={orden.status}
+                      readOnly={readOnly}
+                      plaintext={readOnly ? {} : null}
+                    />
+                  ) : (
+                    <Form.Select
+                      aria-label="Default select example"
+                      name="status"
+                      value={orden.status}
+                      onChange={handleChange}
+                      disabled={readOnly}
+                      plaintext={readOnly ? {} : null}
+                    >
+                      {status[session.rol]?.map((v, i) => (
+                        <option value={v} key={i}>
+                          {v}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  )}
                 </Form.Group>
               </Col>
               <Col sm={1}>
