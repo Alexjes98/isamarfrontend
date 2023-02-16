@@ -6,6 +6,7 @@ export default function NavBar({ session, setSession }) {
     localStorage.clear();
     setSession(null);
   };
+
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -14,20 +15,29 @@ export default function NavBar({ session, setSession }) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav  justify-content-end">
             <Nav className="me-auto">
-              <LinkContainer to="/orders/">
-                <Nav.Link to="/orders/"> Ordenes</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/catalog/">
-                <Nav.Link to="/catalog/"> Catalogo</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/clothes/">
-                <Nav.Link to="/clothes/"> Prendas</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/materials/">
-                <Nav.Link to="/materials/"> Materiales</Nav.Link>
-              </LinkContainer>
+              {session.orders.includes(session.rol) && (
+                <LinkContainer to="/orders/">
+                  <Nav.Link to="/orders/"> Ordenes</Nav.Link>
+                </LinkContainer>
+              )}
+              {session.catalog.includes(session.rol) && (
+                <LinkContainer to="/catalog/">
+                  <Nav.Link to="/catalog/"> Catalogo</Nav.Link>
+                </LinkContainer>
+              )}
+              {session.clothes.includes(session.rol) && (
+                <LinkContainer to="/clothes/">
+                  <Nav.Link to="/clothes/"> Prendas</Nav.Link>
+                </LinkContainer>
+              )}
+              {session.materials.includes(session.rol) && (
+                <LinkContainer to="/materials/">
+                  <Nav.Link to="/materials/"> Materiales</Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
-            <Navbar.Text>
+            <Navbar.Text className="mx-2">Rol: {session.rol}</Navbar.Text>
+            <Navbar.Text className="mx-2">
               Signed in as: {session.nombre} {session.dni}
             </Navbar.Text>
             <Button
