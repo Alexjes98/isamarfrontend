@@ -27,6 +27,7 @@ export default function Clothe({ state, session }) {
     const file = e.target.files[0];
     const obj = { name, file };
     console.log(obj);
+    console.log("file: ", file);
     setImage(obj);
   };
 
@@ -55,10 +56,14 @@ export default function Clothe({ state, session }) {
         const url = `${process.env.REACT_APP_API_URL}/clothes/create`;
 
         const resp = await fetch(url, pream);
-        const x = prenda;
-        x.id = resp.id;
-        setPrenda(x);
+
         if (resp.ok) {
+          const x = await prenda.json();
+          x.id = resp.id;
+          setPrenda(x);
+          if (image) {
+            await updateImage({ id: x.id });
+          }
           setType("view");
         } else {
         }
@@ -82,6 +87,9 @@ export default function Clothe({ state, session }) {
 
         const resp = await fetch(url, pream);
         if (resp.ok) {
+          if (image) {
+            await updateImage({ id: prenda.id });
+          }
           setType("view");
         } else {
         }
@@ -96,6 +104,31 @@ export default function Clothe({ state, session }) {
       updateData();
     }
     // window.location.reload();
+  };
+
+  const updateImage = async ({ id }) => {
+    console.log("id: ", id);
+    try {
+      const fileBody = new FormData();
+      fileBody.append("file", image.file, image.file.name);
+      const pream = {
+        method: "POST",
+        headers: {
+          "x-access-token": session.token,
+        },
+        body: fileBody,
+      };
+
+      const url = `${process.env.REACT_APP_API_URL}/clothes/${id}/image`;
+
+      const resp = await fetch(url, pream);
+      if (resp.ok) {
+        setType("view");
+      } else {
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleEdit = () => {
@@ -324,6 +357,7 @@ export default function Clothe({ state, session }) {
                     <Form.Control
                       type="file"
                       name="image"
+                      accept=".jpg"
                       onChange={handleImageInput}
                     />
                   </Form.Group>
