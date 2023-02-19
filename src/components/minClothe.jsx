@@ -4,6 +4,7 @@ import MinMaterial from "./minMaterial";
 
 export default function Clothe({ state, session }) {
   const [prenda, setPrenda] = useState(state.prenda);
+  const [image, setImage] = useState(null);
   const [materials, setMaterials] = useState(state.materiales);
   const [type, setType] = useState(prenda.id === 0 ? "create" : "view");
   const [show, setShow] = useState(false);
@@ -19,6 +20,14 @@ export default function Clothe({ state, session }) {
     const value = target.value;
     const name = target.name;
     setPrenda({ ...prenda, [name]: value });
+  };
+
+  const handleImageInput = (e) => {
+    const name = e.target.name;
+    const file = e.target.files[0];
+    const obj = { name, file };
+    console.log(obj);
+    setImage(obj);
   };
 
   const addMaterial = () => {
@@ -125,7 +134,7 @@ export default function Clothe({ state, session }) {
         <Col sm={8}>
           <Card body>
             <Row className="mt-3">
-              <Col sm={3}>
+              <Col sm={2}>
                 <Form.Group className="mb-3">
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control
@@ -182,6 +191,7 @@ export default function Clothe({ state, session }) {
                   />
                 </Form.Group>
               </Col>
+
               <Col sm={1}>
                 <Form.Group className="mb-3">
                   <Form.Label></Form.Label>
@@ -306,6 +316,21 @@ export default function Clothe({ state, session }) {
                 </Form.Group>
               </Col>
             </Row>
+            {(type === "create" || type === "edit") && (
+              <Row>
+                <Col sm={4}>
+                  <Form.Group controlId="formFile" className="mb-3">
+                    <Form.Label>Imagen de la prenda</Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="image"
+                      onChange={handleImageInput}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            )}
+
             <Row>
               <Col>
                 <b>Materiales</b>
