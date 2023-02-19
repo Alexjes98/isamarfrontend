@@ -1,6 +1,7 @@
 import { React, useState } from "react";
-import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
+import { Col, Row, Button, Form, Card, Modal, Image } from "react-bootstrap";
 import MinMaterial from "./minMaterial";
+import Franela from "../assets/a.jpg";
 
 export default function Clothe({ state, session }) {
   const [prenda, setPrenda] = useState(state.prenda);
@@ -28,6 +29,10 @@ export default function Clothe({ state, session }) {
     const obj = { name, file };
     console.log(obj);
     console.log("file: ", file);
+
+    const objectUrl = URL.createObjectURL(file);
+    console.log("objectURL: ", objectUrl);
+    setImg(objectUrl);
     setImage(obj);
   };
 
@@ -40,6 +45,12 @@ export default function Clothe({ state, session }) {
     ];
     setMaterials(mat);
   };
+  const onError = () => {
+    setImg(Franela);
+  };
+
+  const prendaImg = `${process.env.REACT_APP_API_URL}/clothesimg/${prenda.id}.jpg`;
+  const [img, setImg] = useState(prendaImg);
 
   const handleSave = () => {
     const saveData = async () => {
@@ -349,85 +360,92 @@ export default function Clothe({ state, session }) {
                 </Form.Group>
               </Col>
             </Row>
-            {(type === "create" || type === "edit") && (
-              <Row>
-                <Col sm={4}>
-                  <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Imagen de la prenda</Form.Label>
-                    <Form.Control
-                      type="file"
-                      name="image"
-                      accept=".jpg"
-                      onChange={handleImageInput}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-            )}
-
             <Row>
-              <Col>
-                <b>Materiales</b>
-              </Col>
-            </Row>
-            <Row className="my-3">
-              <Col sm={2}>
-                <b>Nombre</b>
-              </Col>
-              <Col sm={1}>
-                <b>Color</b>
-              </Col>
-              <Col sm={1}>
-                <b>Cantidad</b>
-              </Col>
-              <Col sm={1}>
-                <b>Unidad</b>
-              </Col>
-              <Col sm={1}>
-                <b>Costo</b>
-              </Col>
-            </Row>
-            {Array.isArray(materials) &&
-              materials.map((material, i) => (
-                <MinMaterial
-                  state={material}
-                  clotheId={prenda.id}
-                  key={i}
-                  inuse={materials}
-                  session={session}
-                />
-              ))}
-            {type === "view" && (
-              <Row>
-                <Col className="text-center">
-                  <Button
-                    variant="primary"
-                    className="mx-2 p-1"
-                    onClick={addMaterial}
-                  >
-                    <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-square-plus"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="#ffffff"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+              <Col sm={9}>
+                {(type === "create" || type === "edit") && (
+                  <Row>
+                    <Col sm={4}>
+                      <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Label>Imagen de la prenda</Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="image"
+                          accept=".jpg"
+                          onChange={handleImageInput}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                )}
+
+                <Row>
+                  <Col>
+                    <b>Materiales</b>
+                  </Col>
+                </Row>
+                <Row className="my-3">
+                  <Col sm={2}>
+                    <b>Nombre</b>
+                  </Col>
+                  <Col sm={2}>
+                    <b>Color</b>
+                  </Col>
+                  <Col sm={2}>
+                    <b>Cantidad</b>
+                  </Col>
+                  <Col sm={2}>
+                    <b>Unidad</b>
+                  </Col>
+                  <Col sm={2}>
+                    <b>Costo</b>
+                  </Col>
+                </Row>
+                {Array.isArray(materials) &&
+                  materials.map((material, i) => (
+                    <MinMaterial
+                      state={material}
+                      clotheId={prenda.id}
+                      key={i}
+                      inuse={materials}
+                      session={session}
+                    />
+                  ))}
+                {type === "view" && (
+                  <Row>
+                    <Col className="text-center">
+                      <Button
+                        variant="primary"
+                        className="mx-2 p-1"
+                        onClick={addMaterial}
                       >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <rect x="4" y="4" width="16" height="16" rx="2" />
-                        <line x1="9" y1="12" x2="15" y2="12" />
-                        <line x1="12" y1="9" x2="12" y2="15" />
-                      </svg>
-                    </span>
-                  </Button>
-                </Col>
-              </Row>
-            )}
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-square-plus"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="#ffffff"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                            <line x1="9" y1="12" x2="15" y2="12" />
+                            <line x1="12" y1="9" x2="12" y2="15" />
+                          </svg>
+                        </span>
+                      </Button>
+                    </Col>
+                  </Row>
+                )}
+              </Col>
+              <Col sm={3}>
+                <Image src={img} fluid={true} onError={onError} />
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>

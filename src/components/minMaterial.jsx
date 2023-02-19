@@ -198,7 +198,7 @@ export default function Material({ clotheId, state, inuse, session }) {
             </Form.Group>
           )}
         </Col>
-        <Col sm={1}>
+        <Col sm={2}>
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
@@ -210,7 +210,7 @@ export default function Material({ clotheId, state, inuse, session }) {
             />
           </Form.Group>
         </Col>
-        <Col sm={1}>
+        <Col sm={2}>
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
@@ -223,7 +223,7 @@ export default function Material({ clotheId, state, inuse, session }) {
             />
           </Form.Group>
         </Col>
-        <Col sm={1}>
+        <Col sm={2}>
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
@@ -235,7 +235,7 @@ export default function Material({ clotheId, state, inuse, session }) {
             />
           </Form.Group>
         </Col>
-        <Col sm={1}>
+        <Col sm={2}>
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
