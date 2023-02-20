@@ -35,6 +35,11 @@ export default function NavBar({ session, setSession }) {
                   <Nav.Link to="/materials/"> Materiales</Nav.Link>
                 </LinkContainer>
               )}
+              {session.rol === "admin" && (
+                <LinkContainer to="/register/">
+                  <Nav.Link to="/register/"> Registrar</Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
             <Navbar.Text className="mx-2">Rol: {session.rol}</Navbar.Text>
             <Navbar.Text className="mx-2">

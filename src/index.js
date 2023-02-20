@@ -38,12 +38,13 @@ function App() {
             <Route path="/materials" element={<Materials session={session} setSession={setSession} />}></Route>
             <Route path="/clothes" element={<Clothes session={session} setSession={setSession} />}></Route>
             <Route path="/catalog" element={<Catalog session={session} setSession={setSession} />}></Route>
+            {session.rol === "admin"}{<Route path="/register" element={<Register to="/login" />}></Route>}
+
             <Route path="*" element={<Navigate to="/orders" />} ></Route>
           </Routes>
         ) : (
           <Routes>
             <Route path="/login" element={<Login setSession={setSession} />}></Route>
-            <Route path="/register" element={<Register to="/login" />}></Route>
             <Route path="*" element={<Navigate to="/login" />} ></Route>
 
           </Routes>)
