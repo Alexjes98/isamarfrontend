@@ -69,7 +69,7 @@ export default function Clothe({ state, session }) {
         const resp = await fetch(url, pream);
 
         if (resp.ok) {
-          const x = await prenda.json();
+          const x = await resp.json();
           x.id = resp.id;
           setPrenda(x);
           if (image) {
