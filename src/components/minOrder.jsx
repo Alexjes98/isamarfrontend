@@ -266,8 +266,10 @@ export default function Order({ data, session }) {
       return ["lista", "completada"];
     } else if (orden.status === "creada") {
       return ["creada", "revision"];
+    } else if (orden.status === "completada") {
+      return ["completada"];
     } else {
-      return ["creada"];
+      return ["revision"];
     }
   };
 
