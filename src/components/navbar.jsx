@@ -15,11 +15,11 @@ export default function NavBar({ session, setSession }) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav  justify-content-end">
             <Nav className="me-auto">
-              {session.orders.includes(session.rol) && (
+              {/* {session.orders.includes(session.rol) && (
                 <LinkContainer to="/orders/">
                   <Nav.Link to="/orders/"> Ordenes</Nav.Link>
                 </LinkContainer>
-              )}
+              )} */}
               {/* {session.catalog.includes(session.rol) && (
                 <LinkContainer to="/catalog/">
                   <Nav.Link to="/catalog/"> Catalogo</Nav.Link>
