@@ -20,7 +20,7 @@ export default function NavBar({ session, setSession }) {
                   <Nav.Link to="/orders/"> Ordenes</Nav.Link>
                 </LinkContainer>
               )}
-              {session.catalog.includes(session.rol) && (
+              {/* {session.catalog.includes(session.rol) && (
                 <LinkContainer to="/catalog/">
                   <Nav.Link to="/catalog/"> Catalogo</Nav.Link>
                 </LinkContainer>
@@ -29,7 +29,7 @@ export default function NavBar({ session, setSession }) {
                 <LinkContainer to="/clothes/">
                   <Nav.Link to="/clothes/"> Prendas</Nav.Link>
                 </LinkContainer>
-              )}
+              )} */}
               {session.materials.includes(session.rol) && (
                 <LinkContainer to="/materials/">
                   <Nav.Link to="/materials/"> Materiales</Nav.Link>
