@@ -10,13 +10,36 @@ import {
 } from "react-bootstrap";
 import Logo from "assets/logo.png";
 
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import generalAlert from "../../components/general_alert"
+import validator from "../../utils/validator"
+
 export default function Login({ setSession }) {
+  const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
+  const [alertState, setAlertState] = useState(alertObject);
   const [state, setState] = useState({
     dni: "",
     password: "",
   });
+  const invalidInput = () => {    
+    if(state.dni === ""){
+      alertObject.show = true
+      alertObject.message = "DNI incorrecto"
+      setAlertState(alertObject)
+      return true
+    }
+    if (state.password === "") {
+      alertObject.show = true
+      alertObject.message = "Contraseña incorrecta"
+      setAlertState(alertObject)
+      return true
+    }
+    return false
+  }
+
   const handleLogin = async () => {
-    try {
+    if(invalidInput()) return;
+    try {      
       const pream = {
         method: "POST",
         headers: {
@@ -52,6 +75,7 @@ export default function Login({ setSession }) {
       <Container>
         <Row className="mt-4 d-flex justify-content-center">
           <Col sm={4}>
+          {generalAlert({ show: alertState.show, variant: alertState.variant, message: alertState.message, icon: alertState.icon })}
             <Card body>
               <Row>
                 <Col className="text-center">
