@@ -12,7 +12,7 @@ import Logo from "assets/logo.png";
 
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import generalAlert from "../../components/general_alert"
-import validator from "../../utils/validator"
+import { isEmpty } from "../../utils/validator"
 
 export default function Login({ setSession }) {
   const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
@@ -22,13 +22,13 @@ export default function Login({ setSession }) {
     password: "",
   });
   const invalidInput = () => {    
-    if(state.dni === ""){
+    if(isEmpty(state.dni)){
       alertObject.show = true
       alertObject.message = "DNI incorrecto"
       setAlertState(alertObject)
       return true
     }
-    if (state.password === "") {
+    if (isEmpty(state.password)) {
       alertObject.show = true
       alertObject.message = "Contraseña incorrecta"
       setAlertState(alertObject)
@@ -51,14 +51,17 @@ export default function Login({ setSession }) {
       const url = `${process.env.REACT_APP_API_URL}/login`;
       console.log("login in");
       const resp = await fetch(url, pream);
-
+      const jsonResp = await resp.json();
       if (resp.ok) {
         console.log("ok!");
-        const x = await resp.json();
-        console.log(x);
-        localStorage.setItem("session", JSON.stringify(x));
-        setSession(x);
+        localStorage.setItem("session", JSON.stringify(jsonResp));
+        setSession(jsonResp);
       } else {
+        console.log(jsonResp);
+        alertObject.show = true;
+        alertObject.message = jsonResp.error;
+        alertObject.variant = "danger";
+        setAlertState(alertObject); 
       }
     } catch (e) {
       console.log(e);
@@ -69,6 +72,8 @@ export default function Login({ setSession }) {
     const value = target.value;
     const name = target.name;
     setState({ ...state, [name]: value });
+    alertObject.show = false;
+    setAlertState(alertObject);
   };
   return (
     <>
@@ -85,7 +90,7 @@ export default function Login({ setSession }) {
               <Form.Group className="mt-5">
                 <Form.Label>Usuario</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder="Ingrese DNI"
                   name="dni"
                   onChange={handleChange}

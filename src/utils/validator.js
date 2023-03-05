@@ -1,4 +1,3 @@
-function isEmpty () {
-
-    return true;
+export const isEmpty = (string) => {
+    return string === ""; 
 }
