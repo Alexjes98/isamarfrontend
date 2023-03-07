@@ -15,12 +15,12 @@ export default function NavBar({ session, setSession }) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav  justify-content-end">
             <Nav className="me-auto">
-              {/* {session.orders.includes(session.rol) && (
+              {session.orders.includes(session.rol) && (
                 <LinkContainer to="/orders/">
                   <Nav.Link to="/orders/"> Ordenes</Nav.Link>
                 </LinkContainer>
-              )} */}
-              {/* {session.catalog.includes(session.rol) && (
+              )}
+              {session.catalog.includes(session.rol) && (
                 <LinkContainer to="/catalog/">
                   <Nav.Link to="/catalog/"> Catalogo</Nav.Link>
                 </LinkContainer>
@@ -29,7 +29,7 @@ export default function NavBar({ session, setSession }) {
                 <LinkContainer to="/clothes/">
                   <Nav.Link to="/clothes/"> Prendas</Nav.Link>
                 </LinkContainer>
-              )} */}
+              )}
               {session.materials.includes(session.rol) && (
                 <LinkContainer to="/materials/">
                   <Nav.Link to="/materials/"> Materiales</Nav.Link>
@@ -38,6 +38,11 @@ export default function NavBar({ session, setSession }) {
               {session.rol === "admin" && (
                 <LinkContainer to="/register/">
                   <Nav.Link to="/register/"> Registrar</Nav.Link>
+                </LinkContainer>
+              )}
+              {session.rol === "admin" && (
+                <LinkContainer to="/users/">
+                  <Nav.Link to="/users/"> Users</Nav.Link>
                 </LinkContainer>
               )}
             </Nav>

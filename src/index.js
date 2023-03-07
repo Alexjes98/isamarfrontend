@@ -10,6 +10,7 @@ import Orders from "routes/orders/index";
 import Login from "routes/login/index";
 import Register from "routes/register/index";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Users from "routes/users";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/orders" element={<Orders session={session} setSession={setSession} />}></Route>
             <Route path="/materials" element={<Materials session={session} setSession={setSession} />}></Route>
+            <Route path="/users" element={<Users session={session} setSession={setSession} />}></Route>
             <Route path="/clothes" element={<Clothes session={session} setSession={setSession} />}></Route>
             <Route path="/catalog" element={<Catalog session={session} setSession={setSession} />}></Route>
             {session.rol === "admin"}{<Route path="/register" element={<Register to="/login" />}></Route>}

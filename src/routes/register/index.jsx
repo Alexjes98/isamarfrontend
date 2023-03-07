@@ -83,7 +83,6 @@ export default function Register() {
   return (
     <>
       {state.redirect && <Navigate to="/login" />}
-
       <Container>
         <Row className="mt-4 d-flex justify-content-center">
           <Col sm={6}>
