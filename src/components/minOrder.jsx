@@ -3,7 +3,14 @@ import { React, useState } from "react";
 import { Col, Row, Button, Form, Card, Modal } from "react-bootstrap";
 import MinClotheOrder from "./minClotheOrder";
 
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import generalAlert from "../components/general_alert"
+import { isEmpty, notPhoneNumber } from "../utils/validator"
+
 export default function Order({ data, session }) {
+  const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
+  const [alertState, setAlertState] = useState(alertObject);
+
   const [orden, setOrden] = useState(data.orden);
   const [prendas, setPrendas] = useState(data.prendas);
   const [show, setShow] = useState(false);
@@ -18,6 +25,8 @@ export default function Order({ data, session }) {
     const name = target.name;
 
     setOrden({ ...orden, [name]: value });
+    alertObject.show= false;
+    setAlertState(alertObject);
   };
   const [type, setType] = useState(orden.id === 0 ? "create" : "view");
   const readOnly = type === "view";
@@ -34,6 +43,28 @@ export default function Order({ data, session }) {
     cantidad: 0,
     costo: 0,
   };
+
+  const invalidInput = () => {
+    if(isEmpty(orden.dni) || isEmpty(orden.nombre) 
+      || isEmpty(orden.apellido) || isEmpty(orden.precio) || isEmpty(orden.creacion)
+      || isEmpty(orden.status) || isEmpty(orden.actualizacion) || isEmpty(orden.costo)
+      ){
+      alertObject.show = true
+      alertObject.message = "Hay campos sin llenar"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+      return true
+    }
+    if(notPhoneNumber(orden.telefono)){
+      alertObject.show = true
+      alertObject.message = "No es un numero de telefono valido"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+    }    
+    return false
+}
+
+
   const addRow = () => {
     setPrendas([...prendas, defaultClothe]);
   };
@@ -183,8 +214,9 @@ export default function Order({ data, session }) {
   }, [materiales, dbPrendas]);
 
   const handleSave = () => {
+    if(invalidInput()) return;
     const saveData = async () => {
-      try {
+      try {        
         const pream = {
           method: "POST",
           headers: {
@@ -304,6 +336,7 @@ export default function Order({ data, session }) {
         <Col sm={12}>
           <Card body>
             <Row className="mt-3">
+            {generalAlert({ show: alertState.show, variant: alertState.variant, message: alertState.message, icon: alertState.icon })}
               <Col>
                 <h5>
                   <b>Orden</b>
