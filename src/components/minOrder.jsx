@@ -420,7 +420,7 @@ export default function Order({ data, session }) {
                 <Form.Group className="mb-3">
                   <Form.Label>Telefono</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     placeholder="telefono"
                     name="telefono"
                     onChange={handleChange}

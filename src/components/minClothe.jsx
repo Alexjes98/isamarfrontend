@@ -3,7 +3,14 @@ import { Col, Row, Button, Form, Card, Modal, Image } from "react-bootstrap";
 import MinMaterial from "./minMaterial";
 import Franela from "../assets/a.jpg";
 
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import generalAlert from "../components/general_alert"
+import { isEmpty, notPhoneNumber } from "../utils/validator"
+
 export default function Clothe({ state, session }) {
+  const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
+  const [alertState, setAlertState] = useState(alertObject);
+
   const [prenda, setPrenda] = useState(state.prenda);
   const [image, setImage] = useState(null);
   const [materials, setMaterials] = useState(state.materiales);
@@ -16,11 +23,26 @@ export default function Clothe({ state, session }) {
   const readOnly = type === "view";
   const save = type === "create" || type === "edit";
 
+  const invalidInput = () => {
+    if(isEmpty(prenda.nombre) || isEmpty(prenda.descripcion) 
+      || isEmpty(prenda.talla) || isEmpty(prenda.costo)){
+      alertObject.show = true
+      alertObject.message = "Hay campos sin llenar"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+      return true
+    }   
+    return false
+}
+
   const handleChange = (e) => {
     const target = e.target;
     const value = target.value;
     const name = target.name;
     setPrenda({ ...prenda, [name]: value });
+
+    alertObject.show= false;
+    setAlertState(alertObject);
   };
 
   const handleImageInput = (e) => {
@@ -53,6 +75,7 @@ export default function Clothe({ state, session }) {
   const [img, setImg] = useState(prendaImg);
 
   const handleSave = () => {
+    if(invalidInput()) return;
     const saveData = async () => {
       try {
         const pream = {
@@ -178,6 +201,7 @@ export default function Clothe({ state, session }) {
         <Col sm={8}>
           <Card body>
             <Row className="mt-3">
+            {generalAlert({ show: alertState.show, variant: alertState.variant, message: alertState.message, icon: alertState.icon })}
               <Col sm={2}>
                 <Form.Group className="mb-3">
                   <Form.Label>Nombre</Form.Label>
