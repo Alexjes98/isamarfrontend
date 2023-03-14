@@ -1,7 +1,14 @@
 import { React, useState } from "react";
 import { Col, Row, Button, Form, Modal } from "react-bootstrap";
 
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import generalAlert from "../components/general_alert"
+import { isEmpty } from "../utils/validator"
+
 export default function Material({ state, session }) {
+  const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
+  const [alertState, setAlertState] = useState(alertObject);
+
   const [formState, setFormState] = useState(state);
 
   const [type, setType] = useState(state.id === 0 ? "create" : "view");
@@ -12,11 +19,26 @@ export default function Material({ state, session }) {
   const readOnly = type === "view";
   const save = type === "create" || type === "edit";
 
+  const invalidInput = () => {
+    if (isEmpty(formState.nombre) || isEmpty(formState.descripcion) || isEmpty(formState.color)
+    || isEmpty(formState.cantidad) || isEmpty(formState.unidad) || isEmpty(formState.costo)) {
+      alertObject.show = true
+      alertObject.message = "Hay campos sin llenar"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+      return true
+    }
+    return false
+  }
+
   const handleChange = (e) => {
     const target = e.target;
     const value = target.value;
     const name = target.name;
     setFormState({ ...formState, [name]: value });
+
+    alertObject.show = false;
+    setAlertState(alertObject);
   };
   const handleHide = async () => {
     if (formState.disponible === 1) {
@@ -48,6 +70,7 @@ export default function Material({ state, session }) {
   const handleSave = (e) => {
     e.preventDefault();
 
+    if(invalidInput()) return;
     const saveData = async () => {
       try {
         const pream = {
@@ -108,6 +131,7 @@ export default function Material({ state, session }) {
   return (
     <>
       <Row className="mt-3">
+      {generalAlert({ show: alertState.show, variant: alertState.variant, message: alertState.message, icon: alertState.icon })}
         <Col sm={3}>
           <Form.Group className="mb-3">
             <Form.Control
