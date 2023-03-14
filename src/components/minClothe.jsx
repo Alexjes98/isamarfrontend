@@ -5,7 +5,7 @@ import Franela from "../assets/a.jpg";
 
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import generalAlert from "../components/general_alert"
-import { isEmpty, notPhoneNumber } from "../utils/validator"
+import { isEmpty} from "../utils/validator"
 
 export default function Clothe({ state, session }) {
   const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
