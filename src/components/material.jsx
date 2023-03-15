@@ -28,6 +28,14 @@ export default function Material({ state, session }) {
       setAlertState(alertObject)
       return true
     }
+
+    if(formState.descripcion.length > 255){
+      alertObject.show = true
+      alertObject.message = "La descripción es mayor a 255 caracteres"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+      return true
+    }
     return false
   }
 

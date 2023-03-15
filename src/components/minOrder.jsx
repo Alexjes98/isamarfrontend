@@ -46,14 +46,21 @@ export default function Order({ data, session }) {
 
   const invalidInput = () => {
     if(isEmpty(orden.dni) || isEmpty(orden.nombre) 
-      || isEmpty(orden.apellido) || isEmpty(orden.precio) || isEmpty(orden.creacion)
-      || isEmpty(orden.status) || isEmpty(orden.actualizacion) || isEmpty(orden.costo)
+      || isEmpty(orden.apellido) || isEmpty(orden.precio) 
+      || isEmpty(orden.status) || isEmpty(orden.costo)
       ){
       alertObject.show = true
       alertObject.message = "Hay campos sin llenar"
       alertObject.variant = "danger"
       setAlertState(alertObject)
       return true
+    }
+    if(prendas.lenght === 0){
+      alertObject.show = true
+      alertObject.message = "No Hay prendas en la orden"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+      return true;
     }
     if(notPhoneNumber(orden.telefono)){
       alertObject.show = true

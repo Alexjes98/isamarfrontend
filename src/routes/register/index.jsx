@@ -13,7 +13,7 @@ import Logo from "assets/logo.png";
 
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import generalAlert from "../../components/general_alert"
-import { isEmpty, notPhoneNumber } from "../../utils/validator"
+import { isEmpty, notPhoneNumber, weakPassword } from "../../utils/validator"
 
 export default function Register() {
   const alertObject = { message: "Hay campos incorrectos", show: false, icon: faExclamationTriangle, variant: "warning" }
@@ -43,11 +43,19 @@ export default function Register() {
       setAlertState(alertObject)
       return true
     }
+    if(weakPassword(state.password)){
+      alertObject.show = true
+      alertObject.message = "La contraseña debe tener al menos 5 caracteres"
+      alertObject.variant = "danger"
+      setAlertState(alertObject)
+      return true
+    }
     if(notPhoneNumber(state.telefono)){      
       alertObject.show = true
       alertObject.message = "No es un numero de telefono valido"
       alertObject.variant = "danger"
       setAlertState(alertObject)
+      return true
     }    
     return false
   }
